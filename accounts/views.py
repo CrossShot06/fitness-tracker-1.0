@@ -9,6 +9,6 @@ def user(request):
     return render(request,"accounts/user.html")
 
 def trainer(request):
-    return render(request,"accounts/user.html")
+    return render(request,"accounts/trainer.html")
 
 
