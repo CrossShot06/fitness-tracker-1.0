@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="{% static '/css/login.css' %}" />
+  <title>Login Page</title>
+</head>
+<body>
+  <div class="app-brand">fitness-tracker</div>
+
+  <div class="container">
+    <div class="left-half">
+      <div class="login-container">
+        <form action="" class="login-form" method="POST">
+          {% csrf_token %}
+          <h1 class="login-heading">Login to Your Account</h1>
+
+          <div class="form-row">
+            <input type="text" id="username" name="username" placeholder="Username" required />
+          </div>
+
+          <div class="form-row">
+            <input type="password" id="password" name="password" placeholder="Password" required />
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="right-half">
+      <h2 class="registration-heading">New Here?</h2>
+      <h4>
+        Take charge of your health today! Sign up now and start tracking your
+        workouts, goals, and progress—all in one place. Your fitness journey
+        starts here!
+      </h4>
+      <a href="{% url 'register' %}" class="registration-redirect">Sign Up</a>
+    </div>
+  </div>
+</body>
+</html>

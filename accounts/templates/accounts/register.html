@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+  <title>Registration Page</title>
+</head>
+<body>
+  <div class="app-brand">fitness-tracker</div>
+
+  <div class="container">
+    <div class="left-half">
+      <div class="left-content">
+        <h2 class="login-heading">Already Have An Account?</h2>
+        <h4>Waste Your Time No More,Login to Unlock Your Full Potential!</h4>
+        <a href="{% url 'login' %}" class="login-redirect">Sign In</a>
+      </div>
+    </div>
+
+    <div class="right-half">
+      <div class="registration-container">
+        <form class="registration-form" method="POST">
+          {% csrf_token %}
+          <h1 class="registration-heading">Create Your Account</h1>
+
+          <div class="form-row">
+            {{ form.username }}
+            {% if form.username.errors %}
+              <div class="form-error">
+                {{ form.username.errors.0 }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-row">
+            {{ form.email }}
+            {% if form.email.errors %}
+              <div class="form-error">
+                {{ form.email.errors.0 }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-row">
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+              <div class="form-error">
+                {{ form.password1.errors.0 }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-row">
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+              <div class="form-error">
+                {{ form.password2.errors.0 }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="form-row">
+            {{ form.role }}
+            {% if form.role.errors %}
+              <div class="form-error">
+                {{ form.role.errors.0 }}
+              </div>
+            {% endif %}
+          </div>
+          
+          <button type="submit" class="register-btn">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>
