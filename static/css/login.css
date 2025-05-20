@@ -139,3 +139,17 @@ body, html {
 .login-form button:hover {
   background: linear-gradient(to right, #0056b3, #007bff);
 }
+
+.messages {
+  background-color: #ffdddd;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.1);
+  max-width: 500px;
+  text-align: center;
+}

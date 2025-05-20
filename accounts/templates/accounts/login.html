@@ -14,6 +14,7 @@
   <div class="container">
     <div class="left-half">
       <div class="login-container">
+        
         <form action="" class="login-form" method="POST">
           {% csrf_token %}
           <h1 class="login-heading">Login to Your Account</h1>
@@ -25,6 +26,10 @@
           <div class="form-row">
             <input type="password" id="password" name="password" placeholder="Password" required />
           </div>
+
+          {% for message in messages %}
+            <p class="messages">{{message}}</p>
+          {% endfor %}
 
           <button type="submit">Login</button>
         </form>
