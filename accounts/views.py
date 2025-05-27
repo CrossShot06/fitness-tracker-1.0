@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import CreateUserForm
+from .forms import CreateUserForm,UpdateUserForm
 from .models import Profile
 from .decorators import unautheticated_user,allowed_users,admin_only
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.cache import never_cache
 
 
 @login_required(login_url='login')
@@ -17,7 +18,12 @@ def home(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','user'])
 def user(request):
-    return render(request, "accounts/user.html")
+    form=UpdateUserForm(instance=request.user.profile)
+    if form.is_valid():
+        form.save()
+
+    context = {'form' : form}
+    return render(request, "accounts/user.html" , context)
 
 
 
@@ -26,7 +32,7 @@ def user(request):
 def trainer(request):
     return render(request, "accounts/trainer.html")
 
-
+@never_cache
 @unautheticated_user
 def register(request):
     form = CreateUserForm()
@@ -36,8 +42,11 @@ def register(request):
         if form.is_valid():
             user = form.save()
             role = form.cleaned_data.get('role')
+            username=form.cleaned_data.get('username')
+            email=form.cleaned_data.get('email')
 
-            Profile.objects.create(user=user, role=role)
+
+            Profile.objects.create(user=user, role=role, username=username, email=email)
 
             group = Group.objects.get(name=role)
             user.groups.add(group)
@@ -47,7 +56,7 @@ def register(request):
     context = {'form': form}
     return render(request, "accounts/register.html", context)
 
-
+@never_cache
 @unautheticated_user
 def login_view(request):
 
