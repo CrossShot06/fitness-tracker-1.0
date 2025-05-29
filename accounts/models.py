@@ -20,5 +20,6 @@ class Profile(models.Model):
     whatsapp_number = models.IntegerField(max_length=15,null=True)
     email = models.CharField(max_length=200,null=True)
     address = models.CharField(max_length=200,null=True)
+    profile_pic = models.ImageField(default="default.png",null=True,blank=True)
     def __str__(self):
         return f"{self.user.username} - {self.role}"

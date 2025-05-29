@@ -32,7 +32,7 @@ class UpdateUserForm(ModelForm):
     
     class Meta:
         model = Profile
-        fields = ['username','role','first_name','last_name','age','gender','phone_number','whatsapp_number','email','address']
+        fields = ['username','role','first_name','last_name','age','gender','phone_number','whatsapp_number','email','address','profile_pic']
         widgets = {
             'username': forms.TextInput(attrs={'placeholder': 'Username'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
@@ -42,5 +42,5 @@ class UpdateUserForm(ModelForm):
             'phone_number': forms.NumberInput(attrs={'placeholder': 'Phone Number'}),
             'whatsapp_number': forms.NumberInput(attrs={'placeholder': 'WhatsApp Number'}),
             'address': forms.TextInput(attrs={'placeholder': 'Address'}),
-            'role': forms.TextInput(attrs={'placeholder': 'Role'}),
+            'gender' : forms.Select(),
         }

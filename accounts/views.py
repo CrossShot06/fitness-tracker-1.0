@@ -19,8 +19,10 @@ def home(request):
 @allowed_users(allowed_roles=['admin','user'])
 def user(request):
     form=UpdateUserForm(instance=request.user.profile)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, request.FILES , instance=request.user.profile)
+        if form.is_valid():
+            form.save()
 
     context = {'form' : form}
     return render(request, "accounts/user.html" , context)
