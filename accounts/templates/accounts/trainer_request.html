@@ -1,0 +1,24 @@
+{% extends "accounts/base_user.html" %}
+{% load static %}
+
+{% block title %}Trainer Request{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/trainer_request.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <h1>Become a Trainer</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_message">Message</label>
+            {{ form.message }}
+        </div>
+        <button type="submit">Send Request</button>
+    </form>
+</div>
+{% if success %}
+    <script>alert("Your request has been sent to the admins for approval.");</script>
+{% endif %}
+{% endblock %}

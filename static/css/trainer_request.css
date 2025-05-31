@@ -1,0 +1,72 @@
+/* Only style the form and internal elements. Do NOT style body or layout */
+
+.form-wrapper {
+    background-color: #1e1e1e;
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    margin: 2rem auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    color: #fca311;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #f1f1f1;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border: 1px solid #fca311;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #fca311;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e59500;
+}
+
+/* Optional: Adjust spacing on smaller screens */
+@media (max-width: 768px) {
+    .form-wrapper {
+        margin: 1.5rem auto;
+        padding: 1.5rem;
+    }
+}

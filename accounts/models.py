@@ -23,3 +23,14 @@ class Profile(models.Model):
     profile_pic = models.ImageField(default="default.png",null=True,blank=True)
     def __str__(self):
         return f"{self.user.username} - {self.role}"
+
+class TrainerRequest(models.Model):
+    STATUS = [
+        ('pending','Pending'),
+        ('approved','Approved'),
+        ('rejected','Rejected')
+    ]
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
+    message = models.TextField(null=True)
+    status = models.CharField(max_length=100,choices=STATUS,default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)

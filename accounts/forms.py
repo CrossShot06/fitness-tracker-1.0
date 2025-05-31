@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile,TrainerRequest
 
 
 ROLES = [
@@ -43,4 +43,14 @@ class UpdateUserForm(ModelForm):
             'whatsapp_number': forms.NumberInput(attrs={'placeholder': 'WhatsApp Number'}),
             'address': forms.TextInput(attrs={'placeholder': 'Address'}),
             'gender' : forms.Select(),
+        }
+
+class TrainerRequestForm(ModelForm):
+
+    class Meta :
+        model = TrainerRequest
+        fields = ['message']
+        widgets = {
+            
+            'message': forms.TextInput(attrs={'rows':5,'placeholder':'Why Do You Want To Be A Trainer?'})
         }
