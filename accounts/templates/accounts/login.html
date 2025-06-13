@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +34,9 @@
 
           <button type="submit">Login</button>
         </form>
+        <p>OR</p>
+        <a href="/accounts/google/login/?process=login" class="google-btn">Sign in with Google</a>
+
       </div>
     </div>
 

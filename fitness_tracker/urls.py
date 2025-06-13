@@ -23,7 +23,9 @@ from accounts.admin_site import custom_admin_site
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("accounts.urls")),
-    path('custom-admin/',custom_admin_site.urls)
+    path('custom-admin/',custom_admin_site.urls),
+    path('accounts/', include('allauth.urls')),
+    path('chat/', include('chat_rt.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)

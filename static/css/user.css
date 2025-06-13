@@ -181,7 +181,7 @@ h2 {
   margin-top: 0.25rem;
 }
 
-/* Responsive Layouts */
+
 @media screen and (max-width: 1024px) {
   form.profile-container {
     flex-direction: column;

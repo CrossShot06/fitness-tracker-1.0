@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Chat Room
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            {% for message in messages %}
+            <div class="message-row {% if message.author.user == user %}my-message{% else %}other-message{% endif %}">
+                <div class="message-content">
+                    {% if not message.author.user == user %}
+                    <img class="profile-pic" src="{{ message.author.profile_pic.url }}" alt="{{ message.author.username }}">
+                    {% endif %}
+                    <div>
+                        <span class="author">{{ message.author.username }}</span>
+                        <span class="time">{{ message.created|date:"H:i" }}</span>
+                        <div class="body">{{ message.body }}</div>
+                    </div>
+                    {% if message.author.user == user %}
+                    <img class="profile-pic" src="{{ message.author.profile_pic.url }}" alt="{{ message.author.username }}">
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div>No messages yet.</div>
+            {% endfor %}
+        </div>
+        <form class="chat-input-area" method="post" id="chat-form" autocomplete="off">
+            {% csrf_token %}
+            <input type="text" name="body" id="chat-input" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script src="{% static 'js/chat.js' %}"></script>
+</body>
+</html>

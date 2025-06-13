@@ -9,13 +9,13 @@ from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.http import HttpResponse
 
-
+@never_cache
 @login_required(login_url='login')
 @admin_only
 def home(request):
     return render(request, "accounts/home.html")
 
-
+@never_cache
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','user'])
 def user(request):
@@ -29,7 +29,7 @@ def user(request):
     return render(request, "accounts/user.html" , context)
 
 
-
+@never_cache
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','trainer'])
 def trainer(request):
@@ -38,21 +38,21 @@ def trainer(request):
 @never_cache
 @unautheticated_user
 def register(request):
+
     form = CreateUserForm()
 
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            role = form.cleaned_data.get('role')
+            role = Group.objects.get(name = 'user')
             username=form.cleaned_data.get('username')
             email=form.cleaned_data.get('email')
 
 
             Profile.objects.create(user=user, role=role, username=username, email=email)
 
-            group = Group.objects.get(name=role)
-            user.groups.add(group)
+            user.groups.add(role)
 
             return redirect('login')
 
@@ -76,10 +76,12 @@ def login_view(request):
     context={}
     return render(request,'accounts/login.html',context)
 
+@never_cache
 def logout_view(request):
     logout(request)
     return redirect('login')
 
+@never_cache
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','user'])
 def trainer_request(request):
@@ -103,5 +105,25 @@ def trainer_request(request):
 
     return render(request,'accounts/trainer_request.html',context)
 
+@login_required(login_url='login')
+def page_redirect(request):
+    
+    group = None
+
+    if request.user.groups.exist():
+
+        group = request.user.groups.all()[0].name
+
+        if group == 'user':
+
+            return redirect('user')
+        
+        elif group == 'trainer':
+
+            return redirect('trainer')
+        
+        else:
+
+            return redirect('home')
 
 

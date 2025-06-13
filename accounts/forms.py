@@ -12,9 +12,6 @@ ROLES = [
 ]
 
 class CreateUserForm(UserCreationForm):
-    role = forms.ChoiceField(choices=ROLES, widget=forms.Select(attrs={
-        'placeholder': 'I am a…'
-    }))
 
     class Meta:
         model = User
@@ -26,7 +23,7 @@ class CreateUserForm(UserCreationForm):
             'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm password'}),
         }
 
-        fields=['username','email','role','password1','password2']
+        fields=['username','email','password1','password2']
 
 class UpdateUserForm(ModelForm):
     
