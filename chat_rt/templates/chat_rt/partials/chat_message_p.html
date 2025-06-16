@@ -1,0 +1,5 @@
+
+<div class="message-row {% if message.author.user == user %}my-message{% else %}other-message{% endif %}">
+  {% include "chat_rt/chat_message.html" %}
+</div>
+

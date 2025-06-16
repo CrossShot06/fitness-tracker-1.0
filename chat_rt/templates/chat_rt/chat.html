@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script src="https://unpkg.com/htmx-ext-ws@2.0.2"></script>
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 </head>
 <body>
@@ -16,30 +19,24 @@
         <div class="chat-messages" id="chat-messages">
             {% for message in messages %}
             <div class="message-row {% if message.author.user == user %}my-message{% else %}other-message{% endif %}">
-                <div class="message-content">
-                    {% if not message.author.user == user %}
-                    <img class="profile-pic" src="{{ message.author.profile_pic.url }}" alt="{{ message.author.username }}">
-                    {% endif %}
-                    <div>
-                        <span class="author">{{ message.author.username }}</span>
-                        <span class="time">{{ message.created|date:"H:i" }}</span>
-                        <div class="body">{{ message.body }}</div>
-                    </div>
-                    {% if message.author.user == user %}
-                    <img class="profile-pic" src="{{ message.author.profile_pic.url }}" alt="{{ message.author.username }}">
-                    {% endif %}
-                </div>
+              {% include "chat_rt/chat_message.html" %}  
             </div>
             {% empty %}
             <div>No messages yet.</div>
             {% endfor %}
         </div>
-        <form class="chat-input-area" method="post" id="chat-form" autocomplete="off">
+        <form class="chat-input-area" id="chat-form" autocomplete="off"
+              method="POST"
+              hx-ext="ws"
+              ws-connect="ws://127.0.0.1:8000/ws/chatroom/private-chat" 
+              ws-send
+              _="on htmx:wsAfterMessage set #chat-input.value to ''"
+              hx-swap="beforeend">
             {% csrf_token %}
-            <input type="text" name="body" id="chat-input" placeholder="Type your message..." required>
+            {{ form.body }}
             <button type="submit">Send</button>
         </form>
     </div>
-    <script src="{% static 'js/chat.js' %}"></script>
+    <script src="{% static 'js/chat2.js' %}"></script>
 </body>
 </html>

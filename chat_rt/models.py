@@ -19,6 +19,6 @@ class GroupMessage(models.Model):
         return f"{self.author.username} : {self.body}"
     
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
 
         

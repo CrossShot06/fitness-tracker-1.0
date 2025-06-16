@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,6 +80,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'allauth.account.middleware.AccountMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'fitness_tracker.urls'
@@ -97,8 +100,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+#WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
+ASGI_APPLICATION = 'fitness_tracker.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
