@@ -101,7 +101,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1' , '13.233.4.233']
 
 #WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
 ASGI_APPLICATION = 'fitness_tracker.asgi.application'
