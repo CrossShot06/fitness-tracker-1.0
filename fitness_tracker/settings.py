@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "daphne",
+    "channels",
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -105,6 +106,11 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 #WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
 ASGI_APPLICATION = 'fitness_tracker.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default' : {
+        "BACKEND" : "channels.layers.InMemoryChannelLayer",
+    }
+}
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
