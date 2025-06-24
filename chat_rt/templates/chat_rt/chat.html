@@ -6,9 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
-    <script src="https://unpkg.com/htmx-ext-ws@2.0.2"></script>
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 </head>
 <body>
@@ -16,22 +13,15 @@
         <div class="chat-header">
             Chat Room
         </div>
-        <div class="chat-messages" id="chat-messages">
+        <div class="chat_messages" id="chat-messages" >
             {% for message in messages %}
-            <div class="message-row {% if message.author.user == user %}my-message{% else %}other-message{% endif %}">
-              {% include "chat_rt/chat_message.html" %}  
-            </div>
-            {% empty %}
-            <div>No messages yet.</div>
+                {% include "chat_rt/chat_message.html" %}  
+                {% empty %}
+                    <div>No messages yet.</div>
             {% endfor %}
         </div>
         <form class="chat-input-area" id="chat-form" autocomplete="off"
-              method="POST"
-              hx-ext="ws"
-              ws-connect="ws://127.0.0.1:8000/ws/chatroom/private-chat" 
-              ws-send
-              _="on htmx:wsAfterMessage set #chat-input.value to ''"
-              hx-swap="beforeend">
+              method="POST">
             {% csrf_token %}
             {{ form.body }}
             <button type="submit">Send</button>

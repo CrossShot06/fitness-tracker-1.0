@@ -14,6 +14,7 @@ class ChatroomConsumer(WebsocketConsumer):
         self.accept()
 
     def receive(self, text_data):
+        print("Received from client:", text_data)
         text_data_json = json.loads(text_data)
         body = text_data_json['body']
 
@@ -28,13 +29,15 @@ class ChatroomConsumer(WebsocketConsumer):
             'user': self.user,
         }
 
-        html = render_to_string("chat_rt/partials/chat_message_p.html", context=context)
-        
+        html = render_to_string("chat_rt/chat_message.html", context=context)
 
-        response = {
-            'target': '#chat-messages',
-            'swap': 'beforeend',
-            'content': html
-        }
-        
-        self.send(text_data=json.dumps(response))
+        try:
+            self.send(text_data=json.dumps({
+                "content": html,
+                "target": "#chat-messages",
+                "swap": "beforeend"
+            }))
+            print("WebSocket send successful")
+        except Exception as e:
+            print("WebSocket send failed:", e)
+

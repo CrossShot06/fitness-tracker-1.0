@@ -1,19 +1,21 @@
-{% if message.author.user == user %}
-    <div class="message-content">
-        <div class="message-meta right">
-            <span class="time">{{ message.created|date:"H:i" }}</span>
-        </div>
-        <div class="body">{{ message.body }}</div>
-    </div>
-{% else %}
-    <div class="message-content">
-        <img class="profile-pic" src="{{ message.author.profile_pic.url }}" alt="{{ message.author.username }}">
-        <div>
-            <div class="message-meta left">
-                <span class="author">{{ message.author.username }}</span>
+<div class="message-row {% if message.author.user == user %}my-message{% else %}other-message{% endif %}">  
+    {% if message.author.user == user %}
+        <div class="message-content">
+            <div class="message-meta right">
                 <span class="time">{{ message.created|date:"H:i" }}</span>
             </div>
             <div class="body">{{ message.body }}</div>
         </div>
-    </div>
-{% endif %}
+    {% else %}
+        <div class="message-content">
+            <img class="profile-pic" src="{{ message.author.profile_pic.url }}" alt="{{ message.author.username }}">
+            <div>
+                <div class="message-meta left">
+                    <span class="author">{{ message.author.username }}</span>
+                    <span class="time">{{ message.created|date:"H:i" }}</span>
+                </div>
+                <div class="body">{{ message.body }}</div>
+            </div>
+        </div>
+    {% endif %}
+</div>

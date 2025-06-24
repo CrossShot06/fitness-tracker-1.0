@@ -25,7 +25,7 @@ body {
     letter-spacing: 1px;
     border-bottom: 1px solid #2c2f33;
 }
-.chat-messages {
+.chat_messages {
     flex: 1;
     padding: 16px;
     overflow-y: auto;
