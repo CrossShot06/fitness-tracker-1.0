@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/trainer_assign.css' %}">
+    <title>Trainer Assign</title>
+</head>
+<body>
+    <div class="trainer_assign-container">
+        {% for trainer in trainers %}
+
+            <div class="trainer-info">
+                <div class="trainer-profilepic">
+                    <img src="{{ trainer.profile_pic.url }}" alt="Profile Picture">
+                </div>
+                <div class="trainer-profilename">
+                    {{trainer.username}}
+                </div>
+                <div class="age">
+                    {{trainer.age}}
+                </div>
+                <div class="gender">
+                    {{trainer.gender}}
+                </div>
+                <div class="reviews">
+                    <a href="#" class="btn review-btn">Reviews</a>
+                </div>
+                <div class="assign">
+                    <a href="{% url 'chat-home' %}" class="btn chat-btn">Chat with me</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

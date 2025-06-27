@@ -1,12 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trainer Page</title>
-</head>
-<body>
-    <h1>Trainer Page</h1>
-    <a href="{% url 'logout' %}">Log Out</a>
-</body>
-</html>
+{% extends "accounts/base_trainer.html" %}
+{% load static %}
+
+{% block title %}Trainer Profile{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/trainer.css' %}">
+{% endblock %}
+
+{% block content %}
+<form class="profile-container" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="left-view">
+        <div class="image-creation">
+            {% if user.profile.profile_pic %}
+                <img src="{{ user.profile.profile_pic.url }}" alt="Profile Picture">
+            {% else %}
+                <img src="{% static 'images/default.png' %}" alt="Default Profile Picture">
+            {% endif %}
+            <div class="form-row">
+                {{ form.profile_pic }}
+                {% if form.profile_pic.errors %}
+                    <div class="form-error">{{ form.profile_pic.errors.0 }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="right-view">
+        <h2>Profile Information</h2> 
+        <div class="form-container">
+            <div class="left-form"> 
+                <div class="form-row">
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="form-error">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>                     
+                <div class="form-row">
+                    {{ form.role }}
+                    <input type="hidden" name="role" value="{{ form.role.value }}">
+                    {% if form.role.errors %}
+                        <div class="form-error">{{ form.role.errors.0 }}</div>
+                    {% endif %}
+                </div>    
+                <div class="form-row">
+                    {{ form.age }}
+                    {% if form.age.errors %}
+                        <div class="form-error">{{ form.age.errors.0 }}</div>
+                    {% endif %}
+                </div>    
+            </div>
+
+            <div class="right-form">
+                <div class="form-row">
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <div class="form-error">{{ form.first_name.errors.0 }}</div>
+                    {% endif %}
+                </div>    
+                <div class="form-row">
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <div class="form-error">{{ form.last_name.errors.0 }}</div>
+                    {% endif %}
+                </div>    
+                <div class="form-row">
+                    {{ form.gender }}
+                    {% if form.gender.errors %}
+                        <div class="form-error">{{ form.gender.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <h2>Contact Information</h2> 
+        <div class="form-container">
+            <div class="left-form"> 
+                <div class="form-row">
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        <div class="form-error">{{ form.phone_number.errors.0 }}</div>
+                    {% endif %}
+                </div>                     
+                <div class="form-row">
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="form-error">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="right-form">
+                <div class="form-row">
+                    {{ form.whatsapp_number }}
+                    {% if form.whatsapp_number.errors %}
+                        <div class="form-error">{{ form.whatsapp_number.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-row">
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                        <div class="form-error">{{ form.address.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <button type="submit" id="Update">Update</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

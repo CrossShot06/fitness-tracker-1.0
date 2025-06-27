@@ -40,6 +40,7 @@ class UpdateUserForm(ModelForm):
             'whatsapp_number': forms.NumberInput(attrs={'placeholder': 'WhatsApp Number'}),
             'address': forms.TextInput(attrs={'placeholder': 'Address'}),
             'gender' : forms.Select(),
+            'role': forms.TextInput(attrs={'disabled': 'disabled'}),
         }
 
 class TrainerRequestForm(ModelForm):

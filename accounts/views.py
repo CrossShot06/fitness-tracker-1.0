@@ -33,7 +33,15 @@ def user(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','trainer'])
 def trainer(request):
-    return render(request, "accounts/trainer.html")
+    
+    form=UpdateUserForm(instance=request.user.profile)
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, request.FILES , instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+
+    context = {'form' : form}
+    return render(request, "accounts/trainer.html", context)
 
 @never_cache
 @unautheticated_user
@@ -126,4 +134,15 @@ def page_redirect(request):
 
             return redirect('home')
 
+
+@login_required(login_url='login')
+def trainer_assign(request):
+
+    trainers = Profile.objects.filter(role = 'trainer')
+
+    context = {
+        'trainers':trainers
+    }
+
+    return render(request,'accounts/trainer_assign.html',context)
 

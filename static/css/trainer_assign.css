@@ -1,0 +1,127 @@
+body {
+    background: #181818;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.trainer_assign-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+    background: #181818;
+}
+
+.trainer-info {
+    background: #232323;
+    border-radius: 1rem;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+    padding: 2rem 1.5rem;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.trainer-info:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.7);
+}
+
+.trainer-profilepic img, .trainer-profilepic input[type="image"] {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fca311;
+    margin-bottom: 1rem;
+    background: #fff;
+}
+
+.trainer-profilename {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fca311;
+    margin-bottom: 0.5rem;
+}
+
+.age, .gender {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.reviews a {
+    color: #fca311;
+    text-decoration: underline;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.assign a {
+    padding: 0.7rem 1.5rem;
+    background: #fca311;
+    color: #000;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+    margin-top: 1rem;
+}
+
+.assign a:hover {
+    background: #ffb733;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: #fca311;
+    color: #000;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    margin-top: 1rem;
+}
+
+.btn:hover {
+    background: #ffb733;
+    color: #181818;
+}
+
+.review-btn {
+    background: #264653;
+    color: #fff;
+    margin-right: 0.5rem;
+}
+
+.review-btn:hover {
+    background: #2a9d8f;
+    color: #fff;
+}
+
+.chat-btn {
+    background: #fca311;
+    color: #000;
+}
+
+.chat-btn:hover {
+    background: #ffb733;
+    color: #181818;
+}
+
+/* Remove underline from all .btn links */
+.btn, .btn:visited {
+    text-decoration: none;
+}
