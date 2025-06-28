@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile,TrainerRequest
+from .models import Profile,TrainerRequest,Review
 
 
 ROLES = [
@@ -51,4 +51,14 @@ class TrainerRequestForm(ModelForm):
         widgets = {
             
             'message': forms.TextInput(attrs={'rows':5,'placeholder':'Why Do You Want To Be A Trainer?'})
+        }
+
+class ReviewForm(forms.ModelForm):
+
+    class Meta:
+        model = Review
+        fields = ['content', 'rating']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3}),
+            'rating': forms.NumberInput(attrs={'min': 1, 'max': 5}),
         }

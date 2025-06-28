@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Reviews</title>
+    <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+</head>
+<body>
+
+    <h2>My Reviews</h2>
+
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="review">
+                <strong>{{ review.user.username }}</strong>
+                <div class="stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                            <span class="star">&#9733;</span>
+                        {% else %}
+                            <span class="star inactive">&#9733;</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p>{{ review.content }}</p>
+                <small>{{ review.created_at }}</small>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No reviews yet.</p>
+    {% endif %}
+
+</body>
+</html>

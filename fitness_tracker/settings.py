@@ -168,3 +168,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'prompt': 'select_account',
+        },
+        'ADAPTER': 'accounts.adapters.DebugGoogleOAuth2Adapter',  # add this
+    }
+}

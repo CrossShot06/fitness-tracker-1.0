@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reviews</title>
+    <link rel="stylesheet" href="{% static 'css/reviews.css' %}">
+</head>
+<body>
+
+    <h2>Leave a Review</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Star Rating Input -->
+        <label for="id_rating">Rating:</label>
+        <div class="star-rating">
+            {% for i in "54321" %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}">
+                <label for="star{{ i }}">&#9733;</label>
+            {% endfor %}
+        </div>
+
+        <label for="id_content">Review:</label>
+        {{ form.content }}
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+    <h2>All Reviews</h2>
+
+    {% for review in reviews %}
+        <div class="review">
+            <strong>{{ review.user.username }}</strong>
+            <div class="stars">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= review.rating %}
+                        <span class="star">&#9733;</span>
+                    {% else %}
+                        <span class="star inactive">&#9733;</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <p>{{ review.content }}</p>
+            <small>{{ review.created_at }}</small>
+        </div>
+    {% empty %}
+        <p>No reviews yet.</p>
+    {% endfor %}
+
+</body>
+</html>

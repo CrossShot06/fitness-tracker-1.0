@@ -25,7 +25,7 @@
                     {{trainer.gender}}
                 </div>
                 <div class="reviews">
-                    <a href="#" class="btn review-btn">Reviews</a>
+                    <a href="{% url 'reviews_page' trainer.username %}" class="btn review-btn">Reviews</a>
                 </div>
                 <div class="assign">
                     <a href="{% url 'start-chat' username=trainer.username %}" class="btn chat-btn">Chat with me</a>

@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
-from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm
-from .models import Profile,TrainerRequest
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm
+from .models import Profile,TrainerRequest,Review
+from django.contrib.auth.models import User
 from .decorators import unautheticated_user,allowed_users,admin_only
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate , login , logout
@@ -171,3 +172,40 @@ def inbox(request):
     }
 
     return render(request,'accounts/inbox.html',context)
+
+@login_required
+def reviews_page(request,username):
+    trainer = get_object_or_404(User,username=username)
+    reviews = Review.objects.filter(trainer=trainer).order_by('-created_at')
+
+    if trainer.profile.role != 'trainer':
+        return redirect('home')  
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.trainer = trainer
+            review.save()
+            return redirect('reviews_page', username=trainer.username)
+
+    else:
+        form = ReviewForm()
+
+    return render(request, 'accounts/reviews_page.html', {
+        'form': form,
+        'reviews': reviews
+    })
+
+
+@login_required
+def trainer_reviews_view(request):
+    if request.user.profile.role != 'trainer':
+        return redirect('home')  
+    
+    reviews = Review.objects.filter(trainer=request.user).order_by('-created_at')
+
+    return render(request, 'accounts/trainer_reviews.html', {
+        'reviews': reviews
+    })

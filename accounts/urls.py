@@ -14,4 +14,7 @@ urlpatterns = [
     path('page-redirect/',views.page_redirect,name='page-redirect'),
     path('trainer_assign/',views.trainer_assign,name='trainer_assign'),
     path('inbox/',views.inbox,name='inbox'),
+    path('reviews/<str:username>/',views.reviews_page,name='reviews_page'),
+    path('my-reviews/', views.trainer_reviews_view, name='trainer_reviews'),
+
 ]
