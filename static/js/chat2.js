@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const chatsocket = new WebSocket('ws://127.0.0.1:8000/ws/chatroom/private-chat');
+    const body = document.querySelector('body');
+    const chatroom_name = body.getAttribute('data-chatroom-name')
+    const chatsocket = new WebSocket('ws://127.0.0.1:8000/ws/chatroom/'+chatroom_name);
     const form = document.getElementById('chat-form');
     const input = document.getElementById('chat-input');
     const chatMessages = document.getElementById('chat-messages');

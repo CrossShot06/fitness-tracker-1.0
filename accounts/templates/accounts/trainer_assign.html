@@ -28,7 +28,7 @@
                     <a href="#" class="btn review-btn">Reviews</a>
                 </div>
                 <div class="assign">
-                    <a href="{% url 'chat-home' %}" class="btn chat-btn">Chat with me</a>
+                    <a href="{% url 'start-chat' username=trainer.username %}" class="btn chat-btn">Chat with me</a>
                 </div>
             </div>
         {% endfor %}
