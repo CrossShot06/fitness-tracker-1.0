@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
 from django.http import HttpResponse
+from chat_rt.models import ChatGroup
 
 @never_cache
 @login_required(login_url='login')
@@ -146,3 +147,27 @@ def trainer_assign(request):
 
     return render(request,'accounts/trainer_assign.html',context)
 
+@login_required(login_url='login')
+def inbox(request):
+    my_profile = request.user.profile
+    chatrooms = my_profile.chat_group.all()
+
+    chat_summaries=[]
+
+    if chatrooms.exists():
+        for chat in chatrooms:
+            for member in chat.members.all():
+                if member !=my_profile:
+                    other_user = member
+                    break
+            last_message = chat.chat_messages.last()
+            chat_summaries.append({
+                'chat':chat,
+                'other_user':other_user,
+                'last_message':last_message,
+            })
+    context = {
+        'chat_summaries':chat_summaries
+    }
+
+    return render(request,'accounts/inbox.html',context)

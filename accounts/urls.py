@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/',views.logout_view,name='logout'),
     path('trainer_request/',views.trainer_request,name='trainer_request'),
     path('page-redirect/',views.page_redirect,name='page-redirect'),
-    path('trainer_assign/',views.trainer_assign,name='trainer_assign')
+    path('trainer_assign/',views.trainer_assign,name='trainer_assign'),
+    path('inbox/',views.inbox,name='inbox'),
 ]

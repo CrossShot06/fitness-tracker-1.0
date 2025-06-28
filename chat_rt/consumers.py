@@ -10,10 +10,11 @@ class ChatroomConsumer(WebsocketConsumer):
     def connect(self):
         print("WebSocket connecting...")
         self.user = self.scope['user']
-        self.chatroom = get_object_or_404(ChatGroup, group_name='private_chat') 
+        self.chatroom = get_object_or_404(ChatGroup,  group_name=self.scope['url_route']['kwargs']['chatroom_name']) 
         print("WebSocket connected!")
 
-        self.chatroom_name = 'private-chat'
+        self.chatroom_name = f"chat_{self.chatroom.group_name}"
+
 
         async_to_sync(self.channel_layer.group_add)(
             self.chatroom_name, self.channel_name

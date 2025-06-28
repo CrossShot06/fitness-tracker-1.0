@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox</title>
+    <link rel="stylesheet" href="{% static 'css/inbox.css' %}">
+</head>
+<body>
+    <div class="inbox-container">
+        <h2 class="inbox-header">Inbox</h2>
+        <div class="chat-card-grid">
+            {% for summary in chat_summaries %}
+                <div class="chat-card">
+                    <div class="chat-info">
+                        <div class="chat-username">
+                            {{ summary.other_user.username }}
+                        </div>
+                        {% if summary.last_message %}
+                            <div class="chat-last-message">
+                                {{ summary.last_message.body|truncatewords:10 }}
+                            </div>
+                        {% else %}
+                            <div class="chat-no-message">
+                                No messages yet.
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="chat-open">
+                        <a href="{% url 'chatroom' summary.chat.group_name %}" class="btn open-chat-btn">Open Chat</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="no-chats">
+                    <p>No chats yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
