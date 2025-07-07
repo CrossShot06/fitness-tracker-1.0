@@ -55,3 +55,21 @@ class StepEntry(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.date} - {self.steps}"
+
+class Appointments(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('CONFIRMED', 'Confirmed'),
+        ('REJECTED', 'Rejected'),
+    ]
+    trainee = models.ForeignKey(User,on_delete=models.CASCADE,related_name='appointments_as_trainee',)
+    trainer = models.ForeignKey(User,on_delete=models.CASCADE,related_name='appointments_as_trainer', )
+    created_at = models.DateTimeField(auto_now_add=True)
+    start_datetime = models.DateTimeField()
+    end_datetime = models.DateTimeField()
+    status = models.CharField(max_length=20,choices=STATUS_CHOICES,default='PENDING')
+    description = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.trainee.username} → {self.trainer.username} on {self.start_datetime.strftime('%Y-%m-%d %H:%M')}"
+

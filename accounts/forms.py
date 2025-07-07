@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile,TrainerRequest,Review,StepEntry
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments
 
 
 
@@ -71,4 +71,13 @@ class StepEntryForm(forms.ModelForm):
         fields = ['date', 'steps']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
+        }
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointments
+        fields = ['start_datetime','end_datetime','description']
+        widgets = {
+            'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'end_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }

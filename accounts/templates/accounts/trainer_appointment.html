@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/trainer_appointment.css' %}">
+    <title>Appointments</title>
+</head>
+<body>
+    <div class="container">
+        <div class="calendar">
+
+        </div>
+        <div class="pending">
+            <h2>Trainer Dashboard - Pending Appointments</h2>
+            <ul>
+            {% for appt in pending_appointments %}
+                <li>
+                {{ appt.title }} requested by {{ appt.trainee.username }}
+                <br>
+                {{ appt.start_datetime }} - {{ appt.end_datetime }}
+                <br>
+                <a href="{% url 'approve_appointment' appt.id %}">Approve</a>
+                <a href="{% url 'reject_appointment' appt.id %}">Reject</a>
+                </li>
+            {% empty %}
+                <li>No pending requests</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

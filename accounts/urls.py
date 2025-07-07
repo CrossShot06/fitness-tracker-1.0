@@ -17,5 +17,10 @@ urlpatterns = [
     path('reviews/<str:username>/',views.reviews_page,name='reviews_page'),
     path('my-reviews/', views.trainer_reviews_view, name='trainer_reviews'),
     path('dashboard/',views.dashboard,name='dashboard'),
-    path('set_goals/', views.set_goals, name='set_goals')
+    path('set_goals/', views.set_goals, name='set_goals'),
+    path('appointment/<str:username>/',views.request_appointment,name='appointment'),
+    path('trainer_appointments/',views.trainer_appointments,name='trainer_appointments'),
+    path('approve_appointment/<int:appointment_id>',views.approve_appointment,name='approve_appointment'),
+    path('reject_appointment/<int:appointment_id>',views.reject_appointment,name='reject_appointment')
+   
 ]

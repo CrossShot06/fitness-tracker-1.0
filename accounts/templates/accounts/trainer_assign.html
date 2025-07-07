@@ -12,13 +12,20 @@
     {% for trainer in trainers %}
         <div class="trainer-info">
             <div class="trainer-profilepic">
-                <img src="{{ trainer.profile_pic.url }}" alt="Profile Picture">
+                {%if trainer.profile_pic%}
+                    <img src="{{ trainer.profile_pic.url }}" alt="Profile Picture">
+                {%else%}
+                    <img src="{%static 'images/default.png'%}" alt="Profile Picture">
+                {%endif%}
             </div>
             <div class="trainer-profilename">{{ trainer.username }}</div>
             <div class="age">{{ trainer.age }}</div>
             <div class="gender">{{ trainer.gender }}</div>
             <div class="reviews">
                 <a href="{% url 'reviews_page' trainer.username %}" class="btn review-btn">Reviews</a>
+            </div>
+            <div class="appointment">
+                <a href="{% url 'appointment' trainer.username %}" class="btn review-btn">Appointment</a>
             </div>
             <div class="assign">
                 <a href="{% url 'start-chat' username=trainer.username %}" class="btn chat-btn">Chat with me</a>

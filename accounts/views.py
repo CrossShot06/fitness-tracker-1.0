@@ -2,8 +2,8 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date, timedelta
 from django.core.serializers.json import DjangoJSONEncoder
-from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm,StepEntryForm
-from .models import Profile,TrainerRequest,Review,StepEntry
+from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm,StepEntryForm,AppointmentForm
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments
 from django.contrib.auth.models import User
 from .decorators import unautheticated_user,allowed_users,admin_only
 from django.contrib.auth.models import Group
@@ -266,3 +266,37 @@ def set_goals(request):
     }
 
     return render(request,'accounts/set_goals.html',context)
+
+def request_appointment(request,username):
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.trainer = get_object_or_404(User,username=username)
+            appointment.trainee = request.user
+            appointment.status = 'PENDING'
+            appointment.save()
+    else:
+        form = AppointmentForm()
+    return render(request, 'accounts/appointments_request.html', {'form': form})
+
+def trainer_appointments(request):
+    trainer = request.user
+    pending_appointments = Appointments.objects.filter(trainer=trainer, status='PENDING')
+    context={
+        'pending_appointments':pending_appointments
+    }
+
+    return render(request,'accounts/trainer_appointment.html',context)
+
+def approve_appointment(request,appointment_id):
+    appointment = get_object_or_404(Appointments,pk=appointment_id,trainer=request.user)
+    appointment.status = 'CONFIRMED' 
+    appointment.save()
+    return redirect('trainer_appointments')
+
+def reject_appointment(request,appointment_id):
+    appointment = get_object_or_404(Appointments,pk=appointment_id,trainer=request.user)
+    appointment.status = 'REJECTED' 
+    appointment.save()
+    return redirect('trainer_appointments')
