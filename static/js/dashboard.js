@@ -1,0 +1,84 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // Parse Django-provided stepData
+  const labels = stepData.map(entry => entry.date);
+  const steps = stepData.map(entry => entry.steps);
+
+  // Get canvas
+  const ctx = document.getElementById('stepsChart').getContext('2d');
+
+  // Make Chart.js STOP resizing it down
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Steps',
+        data: steps,
+        fill: true,
+        backgroundColor: 'rgba(226, 174, 30, 0.2)',
+        borderColor: '#e2ae1e',
+        tension: 0.3,
+        pointBackgroundColor: '#e2ae1e',
+        pointRadius: 3
+      }]
+    },
+    options: {
+      responsive: true,             
+      maintainAspectRatio: false,    // so CSS height works
+      layout: {
+        padding: {
+          bottom: 30                 // space for x-axis labels
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#e2ae1e',
+            font: { size: 14 }
+          }
+        },
+        tooltip: {
+          backgroundColor: '#1e1e1e',
+          titleColor: '#e2ae1e',
+          bodyColor: '#e2ae1e'
+        },
+        zoom: {
+          pan: {
+            enabled: true,
+            mode: 'x',
+            modifierKey: 'ctrl'
+          },
+          zoom: {
+            wheel: {
+              enabled: true
+            },
+            pinch: {
+              enabled: true
+            },
+            mode: 'x'
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#e2ae1e',
+            font: { size: 12 }
+          },
+          grid: {
+            color: 'rgba(226, 174, 30, 0.1)'
+          },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#e2ae1e'
+          },
+          grid: {
+            color: 'rgba(226, 174, 30, 0.1)'
+          }
+        }
+      }
+    }
+  });
+});

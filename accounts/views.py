@@ -1,6 +1,9 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm
-from .models import Profile,TrainerRequest,Review
+from datetime import date, timedelta
+from django.core.serializers.json import DjangoJSONEncoder
+from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm,StepEntryForm
+from .models import Profile,TrainerRequest,Review,StepEntry
 from django.contrib.auth.models import User
 from .decorators import unautheticated_user,allowed_users,admin_only
 from django.contrib.auth.models import Group
@@ -209,3 +212,57 @@ def trainer_reviews_view(request):
     return render(request, 'accounts/trainer_reviews.html', {
         'reviews': reviews
     })
+
+@login_required
+def dashboard(request):
+    # Get today and 30 days ago
+    today = date.today()
+    start_date = today - timedelta(days=29)  # last 30 days inclusive
+
+    # Filter this user's entries in date range
+    entries = StepEntry.objects.filter(
+        user=request.user,
+        date__range=(start_date, today)
+    ).order_by('date')
+
+    # Make sure we have all 30 days even if missing
+    # Build a dict for fast lookup
+    date_to_steps = {e.date: e.steps for e in entries}
+
+    # Build list of 30 days with day number and steps (default 0)
+    serialized_entries = []
+    for i in range(30):
+        d = start_date + timedelta(days=i)
+        steps = date_to_steps.get(d, 0)
+        serialized_entries.append({
+            'date': d.strftime("%Y-%m-%d"),  # full date for clarity
+            'steps': steps
+        })
+
+    # JSON for template
+    step_data_json = json.dumps(serialized_entries, cls=DjangoJSONEncoder)
+
+    context = {
+        'step_data_json': step_data_json
+    }
+    return render(request, 'accounts/dashboard.html', context)
+
+
+def set_goals(request):
+
+    form = StepEntryForm()
+    
+    if request.method == 'POST':
+        form = StepEntryForm(request.POST)
+        if form.is_valid():
+
+            steps = form.save(commit=False)
+            steps.user = request.user
+            
+            steps.save()
+    
+    context = {
+        'form':form
+    }
+
+    return render(request,'accounts/set_goals.html',context)

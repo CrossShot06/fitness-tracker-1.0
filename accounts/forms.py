@@ -2,7 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile,TrainerRequest,Review
+from .models import Profile,TrainerRequest,Review,StepEntry
+
 
 
 ROLES = [
@@ -61,4 +62,13 @@ class ReviewForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 3}),
             'rating': forms.NumberInput(attrs={'min': 1, 'max': 5}),
+        }
+
+
+class StepEntryForm(forms.ModelForm):
+    class Meta:
+        model = StepEntry
+        fields = ['date', 'steps']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'})
         }

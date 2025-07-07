@@ -181,6 +181,14 @@ h2 {
   margin-top: 0.25rem;
 }
 
+.file-label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#id_profile_pic {
+    max-width: 220px;
+}
 
 @media screen and (max-width: 1024px) {
   form.profile-container {
@@ -213,3 +221,4 @@ h2 {
     width: 100%;
   }
 }
+

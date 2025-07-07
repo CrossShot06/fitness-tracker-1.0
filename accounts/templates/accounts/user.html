@@ -17,7 +17,8 @@
                 <img src="{% static 'images/default.png' %}" alt="Default Profile Picture">
             {% endif %}
             <div class="form-row">
-                {{ form.profile_pic }}
+                <label for="id_profile_pic" class="file-label">Change:</label>
+                <input type="file" name="profile_pic" id="id_profile_pic" accept="image/*">
                 {% if form.profile_pic.errors %}
                     <div class="form-error">{{ form.profile_pic.errors.0 }}</div>
                 {% endif %}

@@ -16,5 +16,6 @@ urlpatterns = [
     path('inbox/',views.inbox,name='inbox'),
     path('reviews/<str:username>/',views.reviews_page,name='reviews_page'),
     path('my-reviews/', views.trainer_reviews_view, name='trainer_reviews'),
-
+    path('dashboard/',views.dashboard,name='dashboard'),
+    path('set_goals/', views.set_goals, name='set_goals')
 ]

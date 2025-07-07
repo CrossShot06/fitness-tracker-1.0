@@ -9,9 +9,12 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="dashboard-layout">
-        <aside class="sidebar">
-            <h1 class="logo">Dashboard</h1>
+
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+    <div class="dashboard-layout" id="dashboard">
+        <aside class="sidebar" id="sidebar">
+            <h1 class="logo">Navbar</h1>
             <nav>
                 <a href="{% url 'user' %}">Profile</a>
                 <a href="{% url 'trainer_assign' %}">View Trainers</a>
@@ -19,10 +22,21 @@
                 <a href="{% url 'logout' %}">Log Out</a>
             </nav>
         </aside>
+
         <main class="main-content">
             {% block content %}{% endblock %}
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const dashboard = document.getElementById('dashboard');
+            sidebar.classList.toggle('open');
+            dashboard.classList.toggle('shifted');
+        }
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -51,3 +51,89 @@ body {
   background-color: #1a1a1a;
   overflow-y: auto;
 }
+
+        body {
+            margin: 0;
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+       .hamburger {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 2000;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            display: block;
+            margin: 0;
+        }
+
+
+
+        .dashboard-layout {
+            display: flex;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #1f1f1f;
+            padding: 60px 20px 20px 20px; /* Top padding for space below hamburger */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar .logo {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .shifted .main-content {
+            margin-left: 250px;
+        }
+
+        nav a {
+            display: block;
+            color: #fff;
+            padding: 10px 0;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+                left: -200px;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+            .shifted .main-content {
+                margin-left: 200px;
+            }
+        }

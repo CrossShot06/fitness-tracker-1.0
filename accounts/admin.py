@@ -20,6 +20,7 @@ class TrainerRequestAdmin(admin.ModelAdmin):
                 obj.save()
                 obj.user.groups.clear()
                 obj.user.groups.add(trainer_group)
+                obj.user.profile.role = 'trainer'
         self.message_user(request,'Selected requests have been approved')
 
     def reject_requests(self,request,queryset):
@@ -34,3 +35,4 @@ class TrainerRequestAdmin(admin.ModelAdmin):
 
 custom_admin_site.register(TrainerRequest,TrainerRequestAdmin)
 custom_admin_site.register(Profile)
+admin.site.register(TrainerRequest,TrainerRequestAdmin)

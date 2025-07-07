@@ -47,3 +47,11 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.rating}/5"
+    
+class StepEntry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    steps = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.user.username} - {self.date} - {self.steps}"

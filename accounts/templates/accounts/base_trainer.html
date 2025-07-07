@@ -3,15 +3,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Dashboard{% endblock %}</title>
+    <title>{% block title %}Trainer Dashboard{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/base_user.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="dashboard-layout">
-        <aside class="sidebar">
-            <h1 class="logo">Dashboard</h1>
+
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+    <div class="dashboard-layout" id="dashboard">
+        <aside class="sidebar" id="sidebar">
+            <h1 class="logo">Trainer Panel</h1>
             <nav>
                 <a href="{% url 'user' %}">Profile</a>
                 <a href="{% url 'inbox' %}">Inbox</a>
@@ -19,10 +22,26 @@
                 <a href="{% url 'logout' %}">Log Out</a>
             </nav>
         </aside>
+
         <main class="main-content">
             {% block content %}{% endblock %}
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const dashboard = document.getElementById('dashboard');
+            sidebar.classList.toggle('open');
+            dashboard.classList.toggle('shifted');
+        }
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+
+
+
+
+

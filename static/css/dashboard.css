@@ -1,0 +1,219 @@
+/* General reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body styles */
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #0f0f0f;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Full-screen container */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Left and right halves */
+.left-half {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-half {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Top and mealplan scrollable rows */
+.top-part,
+.mealplan {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 6px;
+  height: 22.5%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.top-part::-webkit-scrollbar,
+.mealplan::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cards in scroll rows */
+.top-part > .card,
+.mealplan > .card {
+  flex: 0 0 calc(33.333% - 10px);
+  min-width: 160px;
+}
+
+/* Card styling */
+.card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+  min-height: 80px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Calories card background */
+.calories {
+  background-image: url("../images/calories_png.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+}
+
+/* Heart rate card background */
+.heartrate {
+  background-image: url("../images/heartrate_bg2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+}
+
+/* Headers */
+.calories-header, .heartrate-header, .steps-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.calories-heading, .heartrate-heading, .steps-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e2ae1e;
+  margin: 0;
+}
+
+.calories-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.heartrate-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.steps-icon {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px; /* tweak as needed */
+}
+/* Footer content */
+.calories .footer, .heartrate .footer, .steps .footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 0.2rem;
+}
+
+#current_calories, #current_heartrate, #current_steps {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #e2ae1e;
+  margin: 0;
+}
+
+#target_calories, #heartrate_status, #steps_target {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #e2ae1e;
+  margin: 0;
+}
+
+/* Activity + Meal */
+.activitychart {
+  height: 60%;
+  min-height: 200px;
+}
+
+.meal {
+  flex: 1;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+
+.steps {
+  background-image: url("../images/steps_bg3.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+  overflow: hidden;
+}
+
+
+.activitychart {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: #e2ae1e;
+  height: 60%;          /* your existing layout proportion */
+  min-height: 250px;    /* increase if needed */
+  overflow: hidden;
+}
+
+.activitychart-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #e2ae1e;
+}
+
+/* Make canvas take all remaining space in flex column */
+.activitychart canvas {
+  flex: 1 1 auto;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
