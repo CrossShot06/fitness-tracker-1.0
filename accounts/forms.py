@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile,TrainerRequest,Review,StepEntry,Appointments
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts
 
 
 
@@ -81,3 +81,30 @@ class AppointmentForm(forms.ModelForm):
             'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
+class WorkoutForm(forms.ModelForm):
+    class Meta:
+        model=Workouts
+        fields=['trainee','workout_name','workout_image','reps','sets','day']
+        widgets = {
+            'workout_name': forms.TextInput(attrs={
+                'placeholder': 'Enter workout name'
+            }),
+            'workout_image': forms.ClearableFileInput(attrs={
+                'placeholder': 'Upload workout image'
+            }),
+            'reps': forms.NumberInput(attrs={
+                'placeholder': 'Number of reps'
+            }),
+            'sets': forms.NumberInput(attrs={
+                'placeholder': 'Number of sets'
+            }),
+        }
+        
+        labels = {
+            'trainee': 'Select Trainee',
+        }
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.fields['trainee'].queryset=User.objects.filter(profile__role='user')

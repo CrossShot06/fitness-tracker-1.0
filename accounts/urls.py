@@ -21,6 +21,7 @@ urlpatterns = [
     path('appointment/<str:username>/',views.request_appointment,name='appointment'),
     path('trainer_appointments/',views.trainer_appointments,name='trainer_appointments'),
     path('approve_appointment/<int:appointment_id>',views.approve_appointment,name='approve_appointment'),
-    path('reject_appointment/<int:appointment_id>',views.reject_appointment,name='reject_appointment')
+    path('reject_appointment/<int:appointment_id>',views.reject_appointment,name='reject_appointment'),
+    path('assign_workout/',views.assign_workout,name="assign_workout")
    
 ]

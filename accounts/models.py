@@ -73,3 +73,27 @@ class Appointments(models.Model):
     def __str__(self):
         return f"{self.trainee.username} → {self.trainer.username} on {self.start_datetime.strftime('%Y-%m-%d %H:%M')}"
 
+class Workouts(models.Model):
+
+    choices=[
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday')
+    ]
+ 
+    trainee = models.ForeignKey(User,on_delete=models.CASCADE,related_name='trainee',)
+    trainer = models.ForeignKey(User,on_delete=models.CASCADE,related_name='trainer', )
+    created_at = models.DateTimeField(auto_now_add=True)   
+    description = models.CharField(max_length=100,null=True)
+    workout_name = models.CharField(max_length=100)
+    workout_image = models.ImageField(null=True,blank=True)
+    reps = models.IntegerField()
+    sets = models.IntegerField()
+    day = models.CharField(max_length=100,choices=choices,default='Monday')
+
+    def __str__(self):
+        return f"{self.trainee.username} → {self.trainer.username} - {self.created_at}"

@@ -1,12 +1,13 @@
 from django.contrib import admin
 from .models import Profile,Review
-from .models import TrainerRequest,Appointments
+from .models import TrainerRequest,Appointments,Workouts
 from django.contrib.auth.models import Group
 from .admin_site import custom_admin_site
 # Register your models here.
 admin.site.register(Profile)
 admin.site.register(Review)
 admin.site.register(Appointments)
+admin.site.register(Workouts)
 class TrainerRequestAdmin(admin.ModelAdmin):
     list_display=['user','message','status','created_at']
     list_filter=['status']

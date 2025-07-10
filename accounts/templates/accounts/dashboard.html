@@ -77,28 +77,62 @@
             </div>
 
 
-            <div class="mealplan">
-                <div class="meal card"></div>
-                <div class="meal card"></div>
-                <div class="meal card"></div>
-                <div class="meal card"></div>
+        <div class="workoutplan">
+        {% for workout in workouts %}
+            <div class="workout-card" style="background-image: url('{% if workout.workout_image %}{{ workout.workout_image.url }}{% else %}{% static 'images/default_workout_bg.png' %}{% endif %}');">
+                <div class="workout-overlay">
+                    <div class="workout-row">
+                        <span class="workout-name">{{ workout.workout_name }}</span>
+                        <span class="workout-reps">Reps: {{ workout.reps }}</span>
+                    </div>
+                <div class="workout-row">
+                    <span class="workout-sets">Sets: 10</span>
+                    <span class="workout-target-sets">Target Sets: {{ workout.sets }}</span>
+                </div>
+                </div>
             </div>
+        {% empty %}
+            <div class="workout-card placeholder-card" style="background-image: url('{% static 'images/default_workout_bg.png' %}');">
+                <div class="workout-overlay">
+                    <h3 class="workout-name">No Workout Today</h3>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if workouts|length < 3 %}
+            {% with 3|add:"-workouts|length" as num_placeholders %}
+                {% for i in "123"|slice:":num_placeholders" %}
+                <div class="workout-card placeholder-card" style="background-image: url('{% static 'images/default_workout_bg.png' %}');">
+                    <div class="workout-overlay"></div>
+                </div>
+                {% endfor %}
+            {% endwith %}
+        {% endif %}
         </div>
+
+
+
+        </div>
+
         <div class="right-half">
             <div class="progress card"></div>
-            <div class="appointment card"></div>
+            <div class="appointment card" id="calendar"></div>
         </div>
     </div>
 
     <script>
         const stepData = JSON.parse('{{ step_data_json|escapejs }}');
         console.log(stepData);
+
+        const events = JSON.parse('{{ events_json|escapejs }}');
+        console.log(events);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/chartjs-plugin-zoom.min.js' %}"></script>
-    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
 
+    <script src="{% static 'js/dashboard.js' %}"></script>
 
 </body>
 </html>

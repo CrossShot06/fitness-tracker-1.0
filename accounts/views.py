@@ -1,9 +1,9 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from django.core.serializers.json import DjangoJSONEncoder
-from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm,StepEntryForm,AppointmentForm
-from .models import Profile,TrainerRequest,Review,StepEntry,Appointments
+from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm,StepEntryForm,AppointmentForm,WorkoutForm
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts
 from django.contrib.auth.models import User
 from .decorators import unautheticated_user,allowed_users,admin_only
 from django.contrib.auth.models import Group
@@ -215,36 +215,59 @@ def trainer_reviews_view(request):
 
 @login_required
 def dashboard(request):
-    # Get today and 30 days ago
-    today = date.today()
-    start_date = today - timedelta(days=29)  # last 30 days inclusive
 
-    # Filter this user's entries in date range
+    today = date.today()
+    start_date = today - timedelta(days=29)  
+
+
     entries = StepEntry.objects.filter(
         user=request.user,
         date__range=(start_date, today)
     ).order_by('date')
 
-    # Make sure we have all 30 days even if missing
-    # Build a dict for fast lookup
     date_to_steps = {e.date: e.steps for e in entries}
 
-    # Build list of 30 days with day number and steps (default 0)
+
     serialized_entries = []
     for i in range(30):
         d = start_date + timedelta(days=i)
         steps = date_to_steps.get(d, 0)
         serialized_entries.append({
-            'date': d.strftime("%Y-%m-%d"),  # full date for clarity
+            'date': d.strftime("%Y-%m-%d"), 
             'steps': steps
         })
 
-    # JSON for template
     step_data_json = json.dumps(serialized_entries, cls=DjangoJSONEncoder)
 
+    confirmed_appointments = Appointments.objects.filter(
+        trainee = request.user,
+        status = "CONFIRMED"
+    )
+
+    events = [
+        {
+            "title": f"{a.description} with {a.trainer.username}",
+            "start": a.start_datetime.isoformat(),
+            "end": a.end_datetime.isoformat()
+        }
+        for a in confirmed_appointments
+    ]
+
+    events_json = json.dumps(events,cls=DjangoJSONEncoder)
+
+    user = request.user
+    today = datetime.today().strftime('%A') 
+
+    workouts = Workouts.objects.filter(trainee=user, day__iexact=today)
+
+    print(workouts)
+
     context = {
-        'step_data_json': step_data_json
+        'step_data_json': step_data_json,
+        'events_json': events_json,
+        'workouts':workouts
     }
+
     return render(request, 'accounts/dashboard.html', context)
 
 
@@ -283,8 +306,26 @@ def request_appointment(request,username):
 def trainer_appointments(request):
     trainer = request.user
     pending_appointments = Appointments.objects.filter(trainer=trainer, status='PENDING')
+
+    confirmed_appointments = Appointments.objects.filter(
+        trainer = request.user,
+        status = "CONFIRMED"
+    )
+
+    events = [
+        {
+            "title": f"{a.description} with {a.trainee.username}",
+            "start": a.start_datetime.isoformat(),
+            "end": a.end_datetime.isoformat()
+        }
+        for a in confirmed_appointments
+    ]
+
+    events_json = json.dumps(events,cls=DjangoJSONEncoder)
+
     context={
-        'pending_appointments':pending_appointments
+        'pending_appointments':pending_appointments,
+        'events_json':events_json
     }
 
     return render(request,'accounts/trainer_appointment.html',context)
@@ -300,3 +341,21 @@ def reject_appointment(request,appointment_id):
     appointment.status = 'REJECTED' 
     appointment.save()
     return redirect('trainer_appointments')
+
+def assign_workout(request):
+
+    if request.method == 'POST':
+        form = WorkoutForm(request.POST,request.FILES)
+        if form.is_valid():
+            workout = form.save(commit=False)
+            workout.trainer = request.user
+            workout.save()
+            return redirect('assign_workout')
+    else:
+        form = WorkoutForm()
+    
+    context = {
+        'form':form
+    }
+
+    return render(request,'accounts/assign_workout.html',context)

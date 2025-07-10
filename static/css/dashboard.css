@@ -42,7 +42,7 @@ html, body {
 
 /* Top and mealplan scrollable rows */
 .top-part,
-.mealplan {
+.workoutplan {
   flex: 0 0 auto;
   display: flex;
   flex-direction: row;
@@ -57,13 +57,13 @@ html, body {
 }
 
 .top-part::-webkit-scrollbar,
-.mealplan::-webkit-scrollbar {
+.workoutplan::-webkit-scrollbar {
   display: none;
 }
 
 /* Cards in scroll rows */
 .top-part > .card,
-.mealplan > .card {
+.workoutplan > .card {
   flex: 0 0 calc(33.333% - 10px);
   min-width: 160px;
 }
@@ -172,7 +172,7 @@ html, body {
   min-height: 200px;
 }
 
-.meal {
+.workout {
   flex: 1;
   min-width: 100px;
   min-height: 100px;
@@ -216,4 +216,152 @@ html, body {
   width: 100% !important;
   height: 100% !important;
   display: block;
+}
+
+/* Header (Month-Year) */
+.fc-toolbar-title {
+  color: #e2ae1e !important;
+}
+
+/* Days of week headers (Sun, Mon, Tue...) */
+.fc-col-header-cell-cushion {
+  color: #e2ae1e !important;
+}
+
+/* Date numbers (1,2,3...) */
+.fc-daygrid-day-number {
+  color: #e2ae1e !important;
+}
+
+/* Events titles */
+.fc-event-title {
+  color: #e2ae1e !important;
+}
+
+/* Navigation buttons */
+.fc-button {
+  color: #e2ae1e !important;
+  border-color: #e2ae1e !important;
+  background-color: transparent !important;
+}
+
+.fc-button:hover {
+  background-color: #e2ae1e !important;
+  color: #0f0f0f !important;
+}
+
+/* Workout Card with background image */
+.workout-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 200px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background-size: cover;
+  background-position: center;
+  color: #e2ae1e;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.15);
+}
+
+/* Frosted glass overlay at bottom */
+.workout-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Workout name at top of overlay */
+.workout-name {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+  color: #e2ae1e;
+}
+
+/* Workout info split into two rows */
+.workout-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.workout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+#reps {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e2ae1e;
+}
+
+#target_sets {
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+/* Placeholder / Filler Cards */
+.placeholder-card {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.workoutplan > .workout-card {
+  flex: 0 0 calc((100% - 32px) / 3);
+  max-width: calc((100% - 32px) / 3);
+  min-width: 160px;
+}
+
+.workout-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+/* Style for name and reps on top row */
+.workout-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #e2ae1e;
+}
+
+.workout-reps {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #e2ae1e;
+}
+
+/* Style for bottom row sets info */
+.workout-sets,
+.workout-target-sets {
+  font-size: 0.95rem;
+  color: #e2ae1e;
 }

@@ -1,0 +1,111 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* PAGE BACKGROUND */
+body, html {
+  height: 100%;
+  width: 100%;
+  background-color: #0f0f0f;
+  font-family: 'Segoe UI', sans-serif;
+  color: #e2ae1e;
+}
+
+/* CENTER THE CARD */
+.page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+/* CARD STYLE */
+.form-card {
+  background-color: #1a1a1a;
+  padding: 2rem 3rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 20px rgba(226, 174, 30, 0.3);
+  width: 100%;
+  max-width: 600px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(226, 174, 30, 0.5);
+}
+
+.form-card h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #e2ae1e;
+}
+
+/* FORM FIELDS */
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  color: #e2ae1e;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem 1rem;
+  background-color: #0f0f0f;
+  border: 1px solid #e2ae1e;
+  border-radius: 0.75rem;
+  color: #e2ae1e;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #ffcc4d;
+  box-shadow: 0 0 5px #e2ae1e;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ffcc4d;
+  box-shadow: 0 0 8px #e2ae1e;
+}
+
+/* ERROR STYLES */
+.error {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+/* BUTTON STYLES */
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #e2ae1e;
+  color: #0f0f0f;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background-color: #ffcc4d;
+  box-shadow: 0 0 10px #e2ae1e;
+}

@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="calendar">
+        <div id="calendar">
 
         </div>
         <div class="pending">
@@ -31,5 +31,13 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        const events = JSON.parse('{{ events_json|escapejs }}');
+        console.log(events);
+    </script>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
+    <script src="{% static 'js/trainer_appointment.js' %}"></script>
 </body>
 </html>
