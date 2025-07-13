@@ -62,8 +62,14 @@
                 </div>
 
                 <div class="activitychart card">
-                    <h3 class="activitychart-heading">Steps Activity (Last 30 Days)</h3>
-                    <canvas id="stepsChart"></canvas>
+                    <div class="activitychart-header">
+                        <h3 class="activitychart-heading">Activity (Last 30 Days)</h3>
+                        <select id="activitySelector">
+                            <option value="steps">Steps</option>
+                            <option value="calories">Calories Burned</option>
+                        </select>
+                    </div>
+                    <canvas id="activityChart"></canvas>
                 </div>
 
                 <div class="day-selector-bar">
@@ -83,7 +89,6 @@
                                     <span class="workout-reps">Reps: {{ workout.reps }}</span>
                                 </div>
                                 <div class="workout-row">
-
                                     {% if is_today %}
                                     <div class="workout-input">
                                         <label class="workout-sets">Sets: </label>
@@ -92,7 +97,6 @@
                                             placeholder="Sets">
                                     </div>
                                     {% endif %}
-
                                     <span class="workout-target-sets">Target Sets: {{ workout.sets }}</span>
                                 </div>
                             </div>
@@ -124,39 +128,13 @@
         </div>
     </div>
 
-    <script>
-        const stepData = JSON.parse('{{ step_data_json|escapejs }}');
-        console.log(stepData);
-
-        const events = JSON.parse('{{ events_json|escapejs }}');
-        console.log(events);
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.querySelector('.dashboard-container form');
-            form.querySelectorAll('input').forEach(input => {
-                input.addEventListener('change', () => {
-                    form.submit();
-                });
-            });
-        });
-    </script>
+    {# SAFE JSON embedding for JS #}
+    {{ chart_data_json|json_script:"chart-data" }}
+    {{ events_json|json_script:"events-data" }}
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/chartjs-plugin-zoom.min.js' %}"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
-
 </body>
 </html>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const daySelector = document.getElementById('day');
-    daySelector.addEventListener('change', () => {
-        const selected = daySelector.value;
-        const url = new URL(window.location.href);
-        url.searchParams.set('day', selected);
-        window.location.href = url.toString();
-    });
-});
-</script>

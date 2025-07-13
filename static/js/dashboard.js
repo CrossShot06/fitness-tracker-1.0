@@ -1,90 +1,137 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Parse Django-provided stepData
-  const labels = stepData.map(entry => entry.date);
-  const steps = stepData.map(entry => entry.steps);
+document.addEventListener('DOMContentLoaded', () => {
+  let chartData = [];
+  let events = [];
 
-  // Get canvas
-  const ctx = document.getElementById('stepsChart').getContext('2d');
-
-  // Make Chart.js STOP resizing it down
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Steps',
-        data: steps,
-        fill: true,
-        backgroundColor: 'rgba(226, 174, 30, 0.2)',
-        borderColor: '#e2ae1e',
-        tension: 0.3,
-        pointBackgroundColor: '#e2ae1e',
-        pointRadius: 3
-      }]
-    },
-    options: {
-      responsive: true,             
-      maintainAspectRatio: false,    // so CSS height works
-      layout: {
-        padding: {
-          bottom: 30                 // space for x-axis labels
+  // SAFELY LOAD CHART DATA
+  try {
+    const chartDataElement = document.getElementById('chart-data');
+    if (chartDataElement) {
+      const rawChart = chartDataElement.textContent.trim();
+      if (rawChart && rawChart !== 'null') {
+        const parsed = JSON.parse(rawChart);
+        if (Array.isArray(parsed)) {
+          chartData = parsed;
+        } else {
+          console.warn("chartData JSON is not an array. Got:", parsed);
         }
+      } else {
+        console.warn("chartData script tag is empty or null");
+      }
+    } else {
+      console.warn("No chart-data element found!");
+    }
+  } catch (err) {
+    console.error("Failed to parse chart-data:", err);
+  }
+
+  // SAFELY LOAD EVENTS DATA
+  try {
+    const eventsDataElement = document.getElementById('events-data');
+    if (eventsDataElement) {
+      const rawEvents = eventsDataElement.textContent.trim();
+      if (rawEvents && rawEvents !== 'null') {
+        const parsedEvents = JSON.parse(rawEvents);
+        if (Array.isArray(parsedEvents)) {
+          events = parsedEvents;
+        } else {
+          console.warn("eventsData JSON is not an array. Got:", parsedEvents);
+        }
+      } else {
+        console.warn("eventsData script tag is empty or null");
+      }
+    } else {
+      console.warn("No events-data element found!");
+    }
+  } catch (err) {
+    console.error("Failed to parse events-data:", err);
+  }
+
+  // Only run Chart.js if we have valid data
+  if (chartData.length > 0) {
+    const labels = chartData.map(entry => entry.date);
+
+    function getMetricData(metric) {
+      return chartData.map(entry => entry[metric] || 0);
+    }
+
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Steps',
+          data: getMetricData('steps'),
+          fill: true,
+          backgroundColor: 'rgba(226, 174, 30, 0.2)',
+          borderColor: '#e2ae1e',
+          tension: 0.3,
+          pointBackgroundColor: '#e2ae1e',
+          pointRadius: 3
+        }]
       },
-      plugins: {
-        legend: {
-          labels: {
-            color: '#e2ae1e',
-            font: { size: 14 }
-          }
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { bottom: 30 }
         },
-        tooltip: {
-          backgroundColor: '#1e1e1e',
-          titleColor: '#e2ae1e',
-          bodyColor: '#e2ae1e'
-        },
-        zoom: {
-          pan: {
-            enabled: true,
-            mode: 'x',
-            modifierKey: 'ctrl'
+        plugins: {
+          legend: {
+            labels: {
+              color: '#e2ae1e',
+              font: { size: 14 }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1e1e1e',
+            titleColor: '#e2ae1e',
+            bodyColor: '#e2ae1e'
           },
           zoom: {
-            wheel: {
-              enabled: true
+            pan: {
+              enabled: true,
+              mode: 'x',
+              modifierKey: 'ctrl'
             },
-            pinch: {
-              enabled: true
-            },
-            mode: 'x'
+            zoom: {
+              wheel: { enabled: true },
+              pinch: { enabled: true },
+              mode: 'x'
+            }
           }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: '#e2ae1e',
-            font: { size: 12 }
-          },
-          grid: {
-            color: 'rgba(226, 174, 30, 0.1)'
-          },
         },
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: '#e2ae1e'
+        scales: {
+          x: {
+            ticks: { color: '#e2ae1e', font: { size: 12 } },
+            grid: { color: 'rgba(226, 174, 30, 0.1)' }
           },
-          grid: {
-            color: 'rgba(226, 174, 30, 0.1)'
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#e2ae1e' },
+            grid: { color: 'rgba(226, 174, 30, 0.1)' }
           }
         }
       }
-    }
-  });
+    });
 
-  var calendarEl = document.getElementById('calendar');
+    // Activity selector
+    const selector = document.getElementById('activitySelector');
+    selector.addEventListener('change', () => {
+      const metric = selector.value;
+      const labelText = selector.options[selector.selectedIndex].text;
 
-  var calendar = new FullCalendar.Calendar(calendarEl, {
+      chart.data.datasets[0].label = labelText;
+      chart.data.datasets[0].data = getMetricData(metric);
+      chart.update();
+    });
+  } else {
+    console.warn("No chart data to render. Skipping Chart.js setup.");
+  }
+
+  // Always render calendar
+  const calendarEl = document.getElementById('calendar');
+  const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     themeSystem: 'standard',
     height: 'parent',
@@ -97,33 +144,34 @@ document.addEventListener("DOMContentLoaded", () => {
     eventColor: '#e2ae1e',
     eventTextColor: '#000'
   });
-
   calendar.render();
 
-
+  // Autosubmit on input change
   const form = document.querySelector('.dashboard-container form');
-  
   form.querySelectorAll('input').forEach(input => {
-      input.addEventListener('change', () => {
-          // Only submit if the field is non-empty
-          if (input.value.trim() !== '') {
-              form.submit();
-          } else {
-              // Optionally show a warning or do nothing
-              input.value = ''; // keep it blank if they want to clear
-          }
-      });
-
-      // Optionally handle pressing "Enter"
-      input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-              e.preventDefault();
-              if (input.value.trim() !== '') {
-                  form.submit();
-              }
-          }
-      });
+    input.addEventListener('change', () => {
+      if (input.value.trim() !== '') {
+        form.submit();
+      } else {
+        input.value = '';
+      }
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (input.value.trim() !== '') {
+          form.submit();
+        }
+      }
+    });
   });
 
-
+  // Day selector (workouts)
+  const daySelector = document.getElementById('day');
+  daySelector.addEventListener('change', () => {
+    const selected = daySelector.value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('day', selected);
+    window.location.href = url.toString();
+  });
 });

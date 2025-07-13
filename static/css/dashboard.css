@@ -487,3 +487,8 @@ html, body {
 .workout-input input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.activitychart-header{
+  display: flex;
+  justify-content: space-between;
+}

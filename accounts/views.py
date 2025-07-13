@@ -214,7 +214,6 @@ def trainer_reviews_view(request):
     })
 
 @login_required
-@login_required
 def dashboard(request):
     user = request.user
     today_date = date.today()
@@ -250,7 +249,6 @@ def dashboard(request):
                 except ValueError:
                     pass
         entry.workout_data = workout_data
-
         entry.save()
         return redirect(f"{request.path}?day={selected_day_name}")
 
@@ -262,22 +260,28 @@ def dashboard(request):
         'workout_data': entry.workout_data
     }
 
-    # Steps chart
+    # Chart data (Steps and Calories) from DailyEntry
     start_date = today_date - timedelta(days=29)
-    entries = StepEntry.objects.filter(
+    entries = DailyEntry.objects.filter(
         user=user,
         date__range=(start_date, today_date)
     ).order_by('date')
-    date_to_steps = {e.date: e.steps for e in entries}
-    serialized_entries = []
+
+    date_to_data = {e.date: {"steps": e.steps or 0, "calories": e.calories or 0} for e in entries}
+
+    serialized_chart_data = []
     for i in range(30):
         d = start_date + timedelta(days=i)
-        steps = date_to_steps.get(d, 0)
-        serialized_entries.append({
-            'date': d.strftime("%Y-%m-%d"), 
-            'steps': steps
+        day_data = date_to_data.get(d, {"steps": 0, "calories": 0})
+        serialized_chart_data.append({
+            'date': d.strftime("%Y-%m-%d"),
+            'steps': day_data["steps"],
+            'calories': day_data["calories"]
         })
-    step_data_json = json.dumps(serialized_entries, cls=DjangoJSONEncoder)
+
+    # ✅ Defensive fix to guarantee non-null JSON
+    if not serialized_chart_data:
+        serialized_chart_data = []
 
     # Appointments
     confirmed_appointments = Appointments.objects.filter(
@@ -292,11 +296,14 @@ def dashboard(request):
         }
         for a in confirmed_appointments
     ]
-    events_json = json.dumps(events, cls=DjangoJSONEncoder)
+
+    # ✅ Defensive fix for events too
+    if not events:
+        events = []
 
     context = {
-        'step_data_json': step_data_json,
-        'events_json': events_json,
+        'chart_data_json': serialized_chart_data,
+        'events_json': events,
         'workouts': workouts_for_selected_day,
         'today_workouts': workouts_for_today,
         'selected_day': selected_day_name,
@@ -307,6 +314,7 @@ def dashboard(request):
     }
 
     return render(request, 'accounts/dashboard.html', context)
+
 
 def set_goals(request):
 
