@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date, timedelta, datetime
 from django.core.serializers.json import DjangoJSONEncoder
 from .forms import CreateUserForm,UpdateUserForm,TrainerRequestForm,ReviewForm,StepEntryForm,AppointmentForm,WorkoutForm
-from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts,DailyEntry
 from django.contrib.auth.models import User
 from .decorators import unautheticated_user,allowed_users,admin_only
 from django.contrib.auth.models import Group
@@ -214,20 +214,61 @@ def trainer_reviews_view(request):
     })
 
 @login_required
+@login_required
 def dashboard(request):
+    user = request.user
+    today_date = date.today()
+    today_name = today_date.strftime("%A")
 
-    today = date.today()
-    start_date = today - timedelta(days=29)  
+    DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
+    # Handle day-selector for workouts view
+    selected_day_name = request.POST.get('day') or request.GET.get('day', today_name)
 
+    # Workouts for the selected day of week
+    workouts_for_selected_day = Workouts.objects.filter(trainee=user, day__iexact=selected_day_name)
+
+    # Workouts for today (for entering sets)
+    workouts_for_today = Workouts.objects.filter(trainee=user, day__iexact=today_name)
+
+    # Load today's DailyEntry
+    entry, _ = DailyEntry.objects.get_or_create(user=user, date=today_date)
+
+    if request.method == 'POST':
+        # Always save these for TODAY
+        entry.calories = request.POST.get('calories', entry.calories)
+        entry.steps = request.POST.get('steps', entry.steps)
+        entry.heartrate = request.POST.get('heartrate', entry.heartrate)
+
+        # Only today's workouts are editable
+        workout_data = entry.workout_data or {}
+        for workout in workouts_for_today:
+            sets_value = request.POST.get(f'workout_{workout.id}')
+            if sets_value:
+                try:
+                    workout_data[str(workout.id)] = int(sets_value)
+                except ValueError:
+                    pass
+        entry.workout_data = workout_data
+
+        entry.save()
+        return redirect(f"{request.path}?day={selected_day_name}")
+
+    # Prepopulate form data
+    todays_data = {
+        'calories': entry.calories,
+        'steps': entry.steps,
+        'heartrate': entry.heartrate,
+        'workout_data': entry.workout_data
+    }
+
+    # Steps chart
+    start_date = today_date - timedelta(days=29)
     entries = StepEntry.objects.filter(
-        user=request.user,
-        date__range=(start_date, today)
+        user=user,
+        date__range=(start_date, today_date)
     ).order_by('date')
-
     date_to_steps = {e.date: e.steps for e in entries}
-
-
     serialized_entries = []
     for i in range(30):
         d = start_date + timedelta(days=i)
@@ -236,14 +277,13 @@ def dashboard(request):
             'date': d.strftime("%Y-%m-%d"), 
             'steps': steps
         })
-
     step_data_json = json.dumps(serialized_entries, cls=DjangoJSONEncoder)
 
+    # Appointments
     confirmed_appointments = Appointments.objects.filter(
-        trainee = request.user,
-        status = "CONFIRMED"
+        trainee=user,
+        status="CONFIRMED"
     )
-
     events = [
         {
             "title": f"{a.description} with {a.trainer.username}",
@@ -252,24 +292,21 @@ def dashboard(request):
         }
         for a in confirmed_appointments
     ]
-
-    events_json = json.dumps(events,cls=DjangoJSONEncoder)
-
-    user = request.user
-    today = datetime.today().strftime('%A') 
-
-    workouts = Workouts.objects.filter(trainee=user, day__iexact=today)
-
-    print(workouts)
+    events_json = json.dumps(events, cls=DjangoJSONEncoder)
 
     context = {
         'step_data_json': step_data_json,
         'events_json': events_json,
-        'workouts':workouts
+        'workouts': workouts_for_selected_day,
+        'today_workouts': workouts_for_today,
+        'selected_day': selected_day_name,
+        'days': DAYS_OF_WEEK,
+        'today_name': today_name,
+        'todays_data': todays_data,
+        'is_today': (selected_day_name == today_name)
     }
 
     return render(request, 'accounts/dashboard.html', context)
-
 
 def set_goals(request):
 

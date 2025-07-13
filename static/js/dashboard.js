@@ -101,4 +101,29 @@ document.addEventListener("DOMContentLoaded", () => {
   calendar.render();
 
 
+  const form = document.querySelector('.dashboard-container form');
+  
+  form.querySelectorAll('input').forEach(input => {
+      input.addEventListener('change', () => {
+          // Only submit if the field is non-empty
+          if (input.value.trim() !== '') {
+              form.submit();
+          } else {
+              // Optionally show a warning or do nothing
+              input.value = ''; // keep it blank if they want to clear
+          }
+      });
+
+      // Optionally handle pressing "Enter"
+      input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+              e.preventDefault();
+              if (input.value.trim() !== '') {
+                  form.submit();
+              }
+          }
+      });
+  });
+
+
 });

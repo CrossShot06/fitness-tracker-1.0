@@ -365,3 +365,125 @@ html, body {
   font-size: 0.95rem;
   color: #e2ae1e;
 }
+
+.day-selector-bar {
+  width: 100%;
+  height: 40px;
+  background-color: #1a1a1a;
+  border-top: 1px solid #e2ae1e;
+  border-bottom: 1px solid #e2ae1e;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.day-selector-bar {
+  width: 100%;
+  height: 44px;
+  background-color: #1a1a1a;
+  border: 1px solid #e2ae1e;
+  border-radius: 8px;
+  box-shadow: inset 0 0 4px rgba(226, 174, 30, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.day-selector-bar select {
+  width: 100%;
+  height: 100%;
+  background-color: #0f0f0f;
+  color: #e2ae1e;
+  border: none;
+  padding: 0 16px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  text-align: center;
+  text-align-last: center;
+}
+
+.day-selector-bar select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(226, 174, 30, 0.4);
+}
+
+.workoutplan {
+  flex: 1 1 auto; /* allow it to grow and fill remaining height */
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 6px;
+}
+
+.top-part {
+  min-height: 140px;
+}
+
+.activitychart {
+  min-height: 250px;
+}
+
+/* Style the input fields inside the top-part cards */
+.top-part .card input[type="number"] {
+  width: 80px;
+  max-width: 100%;
+  padding: 6px 10px;
+  background-color: #141414;
+  border: 1px solid #e2ae1e;
+  border-radius: 6px;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.top-part .card input[type="number"]:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 4px rgba(226, 174, 30, 0.5);
+}
+
+/* Style the input for sets in workout cards */
+.workout-input input[type="number"] {
+  width: 60px;
+  max-width: 100%;
+  padding: 4px 8px;
+  background-color: #141414;
+  border: 1px solid #e2ae1e;
+  border-radius: 6px;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-input input[type="number"]:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 4px rgba(226, 174, 30, 0.5);
+}
+
+/* Remove number input spinner - Chrome, Safari, Edge */
+.top-part .card input[type="number"]::-webkit-outer-spin-button,
+.top-part .card input[type="number"]::-webkit-inner-spin-button,
+.workout-input input[type="number"]::-webkit-outer-spin-button,
+.workout-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove number input spinner - Firefox */
+.top-part .card input[type="number"],
+.workout-input input[type="number"] {
+  -moz-appearance: textfield;
+}

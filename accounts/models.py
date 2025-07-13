@@ -97,3 +97,18 @@ class Workouts(models.Model):
 
     def __str__(self):
         return f"{self.trainee.username} → {self.trainer.username} - {self.created_at}"
+
+class DailyEntry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    calories = models.PositiveIntegerField(null=True, blank=True)
+    steps = models.PositiveIntegerField(null=True, blank=True)
+    heartrate = models.PositiveBigIntegerField(null=True,blank=True)
+    workout_data = models.JSONField(default=dict, blank=True)
+
+    class Meta:
+        unique_together = ('user', 'date')
+        ordering = ['-date']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.date}"

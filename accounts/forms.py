@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts,DailyEntry
 
 
 
@@ -108,3 +108,8 @@ class WorkoutForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.fields['trainee'].queryset=User.objects.filter(profile__role='user')
+
+class DailyEntryForm(forms.ModelForm):
+    class Meta:
+        model = DailyEntry
+        fields = ['calories', 'steps','heartrate']
