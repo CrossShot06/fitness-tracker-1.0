@@ -270,15 +270,32 @@ def dashboard(request):
     date_to_data = {e.date: {"steps": e.steps or 0, "calories": e.calories or 0} for e in entries}
 
     serialized_chart_data = []
+
     for i in range(30):
         d = start_date + timedelta(days=i)
         day_data = date_to_data.get(d, {"steps": 0, "calories": 0})
+        
+        # Calculate workout_progress for this date
+        workout_entry = next((e for e in entries if e.date == d), None)
+        progress = 0.0
+
+        if workout_entry and workout_entry.workout_data:
+            workout_data = workout_entry.workout_data
+            day_name = d.strftime("%A")
+            assigned_workouts = Workouts.objects.filter(trainee=user, day__iexact=day_name)
+
+            total_target_sets = sum(w.sets for w in assigned_workouts)
+            total_done_sets = sum(int(workout_data.get(str(w.id), 0)) for w in assigned_workouts)
+
+            if total_target_sets > 0:
+                progress = round((total_done_sets / total_target_sets) * 100, 2)
+
         serialized_chart_data.append({
             'date': d.strftime("%Y-%m-%d"),
             'steps': day_data["steps"],
-            'calories': day_data["calories"]
+            'calories': day_data["calories"],
+            'workout_progress': progress
         })
-
     # ✅ Defensive fix to guarantee non-null JSON
     if not serialized_chart_data:
         serialized_chart_data = []

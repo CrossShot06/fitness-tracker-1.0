@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const ctx = document.getElementById('activityChart').getContext('2d');
-    const chart = new Chart(ctx, {
+    let chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -120,6 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
     selector.addEventListener('change', () => {
       const metric = selector.value;
       const labelText = selector.options[selector.selectedIndex].text;
+
+      // Change chart type based on selection
+      if (metric === 'workout_progress') {
+        chart.config.type = 'bar';
+        chart.options.scales.y.max = 100;
+      } else {
+        chart.config.type = 'line';
+        chart.options.scales.y.max = undefined;
+      }
 
       chart.data.datasets[0].label = labelText;
       chart.data.datasets[0].data = getMetricData(metric);
