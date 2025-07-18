@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Navbar{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/navbar_user.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <div class="page_layout" id="layout">
+        
+        <div class = "links">
+            <a href="{% url 'user' %}">Profile</a>
+            <a href="{% url 'trainer_assign' %}">View Trainers</a>
+            <a href="{% url 'trainer_request' %}">Apply to Become a Trainer</a>
+            <a href="{% url 'logout' %}">Log Out</a>
+        </div>
+        
+
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

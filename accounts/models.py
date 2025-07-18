@@ -104,6 +104,8 @@ class DailyEntry(models.Model):
     calories = models.PositiveIntegerField(null=True, blank=True)
     steps = models.PositiveIntegerField(null=True, blank=True)
     heartrate = models.PositiveBigIntegerField(null=True,blank=True)
+    sleep = models.PositiveBigIntegerField(null=True,blank=True)
+    water = models.PositiveBigIntegerField(null=True,blank=True)
     workout_data = models.JSONField(default=dict, blank=True)
 
     class Meta:
@@ -112,3 +114,14 @@ class DailyEntry(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.date}"
+
+class Target(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    calories = models.PositiveIntegerField(null=True, blank=True)
+    steps = models.PositiveIntegerField(null=True, blank=True)
+    water = models.PositiveIntegerField(null=True, blank=True)
+    sleep = models.PositiveIntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)  
+
+    def __str__(self):
+        return f"{self.user.username} - {self.created_at}"      

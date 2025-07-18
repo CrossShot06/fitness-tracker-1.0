@@ -1,18 +1,19 @@
+{% extends "accounts/base_user.html" %}{
 {% load static %}
 {% load workout_extras %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <title>Dashboard</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <div class="dashboard-container">
         <div class="left-half card">
             <form method="post">
                 {% csrf_token %}
+                <input type="hidden" name="form_type" value="daily_entry">
                 <input type="hidden" name="day" value="{{ selected_day }}">
                 <div class="top-part">
                     <div class="calories card">
@@ -24,7 +25,7 @@
                         </div>
                         <div class="footer">
                             <input type="number" name="calories" value="{{ todays_data.calories }}" placeholder="Calories">
-                            <h5 id="target_calories">Target: 1000kcal</h5>
+                            <h5 id="target_calories">Target: {{target.calories}} kcal</h5>
                         </div>  
                     </div>
 
@@ -40,7 +41,7 @@
                         </div>
                         <div class="footer">
                             <input type="number" name="steps" value="{{ todays_data.steps }}" placeholder="Steps">
-                            <h5 id="steps_target">Target: 1500 steps</h5>
+                            <h5 id="steps_target">Target: {{target.steps}} steps</h5>
                         </div>
                     </div>
 
@@ -57,8 +58,37 @@
                         </div>
                     </div>
 
-                    <div class="sleep card"></div>
-                    <div class="water card"></div>
+                    <div class="sleep card">
+                        <div class="header sleep-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e2ae1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Bed frame -->
+                            <path d="M3 7v13" />
+                            <path d="M21 14V7H3v7h18z" />
+                            <path d="M21 20V14" />
+                            </svg>
+
+                            <h3 class="sleep-heading">Sleep</h3>
+                        </div>
+                        <div class="footer">
+                            <input type="number" name="sleep" value="{{ todays_data.sleep}}" placeholder="Sleep">
+                            <h5 id="sleep_status"><b>Target: {{target.sleep}} hours</b></h5>
+                        </div>
+                    </div>
+
+                    <div class="water card">
+                        <div class="header water-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#e2ae1e" stroke-width="2" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C12 2 5 9 5 14a7 7 0 0014 0c0-5-7-12-7-12z" />
+                            </svg>
+
+
+                            <h3 class="water-heading">Water</h3>
+                        </div>
+                        <div class="footer">
+                            <input type="number" name="water" value="{{ todays_data.water}}" placeholder="Water">
+                            <h5 id="water_status"><b>Target: {{target.water}} litres</b></h5>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="activitychart card">
@@ -124,18 +154,37 @@
         </div>
 
         <div class="right-half">
-            <div class="progress card"></div>
+            <div class="progress card">
+                <div class="progress-targets-list">
+                    <h4 class="targets-title">Today's Targets</h4>
+                    <form method="post" class="targets-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="target_form">
+                        <ul>
+                            <li>🔥 Calories: {{ form.calories }}</li>
+                            <li>🚶 Steps: {{ form.steps }}</li>
+                            <li>💧 Water: {{ form.water }}</li>
+                            <li>😴 Sleep: {{ form.sleep }}</li>
+                        </ul>
+                        <button type="submit" class="target-submit-btn">Set Goals!!</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="appointment card" id="calendar"></div>
         </div>
     </div>
 
-    {# SAFE JSON embedding for JS #}
     {{ chart_data_json|json_script:"chart-data" }}
     {{ events_json|json_script:"events-data" }}
+
+{% endblock %}
+
+
+{% block extra_js %}
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'js/chartjs-plugin-zoom.min.js' %}"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
-</body>
-</html>
+{% endblock %}

@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts,DailyEntry
+from .models import Profile,TrainerRequest,Review,StepEntry,Appointments,Workouts,DailyEntry,Target
 
 
 
@@ -113,3 +113,8 @@ class DailyEntryForm(forms.ModelForm):
     class Meta:
         model = DailyEntry
         fields = ['calories', 'steps','heartrate']
+
+class TargetForm(forms.ModelForm):
+    class Meta:
+        model = Target
+        fields = ['calories','steps','water','sleep']

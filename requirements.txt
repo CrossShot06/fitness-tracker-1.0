@@ -23,6 +23,7 @@ pycparser==2.22
 PyJWT==2.10.1
 pyOpenSSL==25.1.0
 requests==2.32.3
+reverse==0.1.0
 service-identity==24.2.0
 setuptools==80.9.0
 shortuuid==1.0.13
