@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+.app-brand {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.left-half {
+  width: 35%;
+  background-color: #CDEDF6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.left-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 300px;
+}
+
+.login-heading {
+  font-size: 2rem;
+  color: #0056b3;
+}
+
+.left-content h4 {
+  font-size: 1.1rem;
+}
+
+.right-half {
+  width: 65%;
+  background-color: #5EB1BF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.registration-container {
+  width: 100%;
+  max-width: 500px;
+  background-color: #CDEDF6;
+  padding: 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  color: #0056b3;
+  text-align: center;
+}
+
+.registration-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  align-items: center;
+}
+
+.form-row {
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-row input,
+.form-row select {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+  background-color: white;
+  width: 100%;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.register-btn {
+  padding: 0.9rem 1rem;
+  background: linear-gradient(to right, #007bff, #3399ff);
+  border: none;
+  border-radius: 1rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  max-width: 420px;
+  width: 100%;
+}
+
+.register-btn:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+}
+
+.login-redirect {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.login-redirect:hover {
+  background-color: #0056b3;
+}
+
+.form-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}

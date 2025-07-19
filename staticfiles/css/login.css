@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body, html {
+  height: 100%;
+}
+
+
+.app-brand {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.left-half {
+  width: 65%;
+  background-color: #5EB1BF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.right-half {
+  width: 35%;
+  height: 100%;
+  background-color: #CDEDF6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.registration-heading {
+  font-size: 1.75rem;
+  color: #0056b3;
+}
+
+.registration-redirect {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.registration-redirect:hover {
+  background-color: #0056b3;
+}
+
+
+.login-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 3rem;
+  background-color: #CDEDF6;
+  border-radius: 2rem;
+  color: #0056b3;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+
+.login-heading {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form-row input {
+  padding: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  transition: border 0.3s ease;
+}
+
+.form-row input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+
+.login-form button {
+  padding: 1.2rem;
+  background: linear-gradient(to right, #007bff, #3399ff);
+  border: none;
+  border-radius: 0.75rem;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-form button:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+}
+
+.messages {
+  background-color: #ffdddd;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.1);
+  max-width: 500px;
+  text-align: center;
+}

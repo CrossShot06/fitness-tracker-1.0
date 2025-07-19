@@ -1,0 +1,685 @@
+/* General reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body styles */
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #0f0f0f;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Full-screen container */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Left and right halves */
+.left-half {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-half {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Top and mealplan scrollable rows */
+.top-part,
+.workoutplan {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 6px;
+  height: 22.5%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.top-part::-webkit-scrollbar,
+.workoutplan::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cards in scroll rows */
+.top-part > .card,
+.workoutplan > .card {
+  flex: 0 0 calc(33.333% - 10px);
+  min-width: 160px;
+}
+
+/* Card styling */
+.card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+  min-height: 80px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Calories card background */
+.calories {
+  background-image: url("../images/calories_png.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+}
+
+/* Heart rate card background */
+.heartrate {
+  background-image: url("../images/heartrate_bg2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+}
+
+/* Headers */
+.calories-header, .heartrate-header, .steps-header, .sleep-header, .water-header{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.calories-heading, .heartrate-heading, .steps-heading, .sleep-heading, .water-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e2ae1e;
+  margin: 0;
+}
+
+.calories-icon, .sleep-icon, .water-icon{
+  width: 20px;
+  height: 20px;
+}
+
+.heartrate-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.steps-icon {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px; /* tweak as needed */
+}
+/* Footer content */
+.calories .footer, .heartrate .footer, .steps .footer, .sleep .footer, .water .footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 0.2rem;
+}
+
+#current_calories, #current_heartrate, #current_steps, #current_sleep, #current_water {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #e2ae1e;
+  margin: 0;
+}
+
+#target_calories, #heartrate_status, #steps_target, #sleep_target, #water_target {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #e2ae1e;
+  margin: 0;
+}
+
+/* Activity + Meal */
+.activitychart {
+  height: 60%;
+  min-height: 200px;
+}
+
+.workout {
+  flex: 1;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+
+.steps {
+  background-image: url("../images/steps_bg3.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+  overflow: hidden;
+}
+
+.sleep {
+  background-image: url("../images/sleep_bg4.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+  overflow: hidden;
+  
+}
+
+.water {
+  background-image: url("../images/water_bg.png");
+  background-size: 100px 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  color: #e2ae1e;
+  overflow: hidden;
+}
+
+
+.activitychart {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: #e2ae1e;
+  height: 60%;          /* your existing layout proportion */
+  min-height: 250px;    /* increase if needed */
+  overflow: hidden;
+}
+
+.activitychart-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #e2ae1e;
+}
+
+/* Make canvas take all remaining space in flex column */
+.activitychart canvas {
+  flex: 1 1 auto;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Header (Month-Year) */
+.fc-toolbar-title {
+  color: #e2ae1e !important;
+}
+
+/* Days of week headers (Sun, Mon, Tue...) */
+.fc-col-header-cell-cushion {
+  color: #e2ae1e !important;
+}
+
+/* Date numbers (1,2,3...) */
+.fc-daygrid-day-number {
+  color: #e2ae1e !important;
+}
+
+/* Events titles */
+.fc-event-title {
+  color: #e2ae1e !important;
+}
+
+/* Navigation buttons */
+.fc-button {
+  color: #e2ae1e !important;
+  border-color: #e2ae1e !important;
+  background-color: transparent !important;
+}
+
+.fc-button:hover {
+  background-color: #e2ae1e !important;
+  color: #0f0f0f !important;
+}
+
+/* Workout Card with background image */
+.workout-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 200px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background-size: cover;
+  background-position: center;
+  color: #e2ae1e;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.15);
+}
+
+/* Frosted glass overlay at bottom */
+.workout-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Workout name at top of overlay */
+.workout-name {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+  color: #e2ae1e;
+}
+
+/* Workout info split into two rows */
+.workout-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.workout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+#reps {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e2ae1e;
+}
+
+#target_sets {
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+/* Placeholder / Filler Cards */
+.placeholder-card {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.workoutplan > .workout-card {
+  flex: 0 0 calc((100% - 32px) / 3);
+  max-width: calc((100% - 32px) / 3);
+  min-width: 160px;
+}
+
+.workout-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+/* Style for name and reps on top row */
+.workout-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #e2ae1e;
+}
+
+.workout-reps {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #e2ae1e;
+}
+
+/* Style for bottom row sets info */
+.workout-sets,
+.workout-target-sets {
+  font-size: 0.95rem;
+  color: #e2ae1e;
+}
+
+.day-selector-bar {
+  width: 100%;
+  height: 40px;
+  background-color: #1a1a1a;
+  border-top: 1px solid #e2ae1e;
+  border-bottom: 1px solid #e2ae1e;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.day-selector-bar {
+  width: 100%;
+  height: 44px;
+  background-color: #1a1a1a;
+  border: 1px solid #e2ae1e;
+  border-radius: 8px;
+  box-shadow: inset 0 0 4px rgba(226, 174, 30, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.day-selector-bar select {
+  width: 100%;
+  height: 100%;
+  background-color: #0f0f0f;
+  color: #e2ae1e;
+  border: none;
+  padding: 0 16px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  text-align: center;
+  text-align-last: center;
+}
+
+.day-selector-bar select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(226, 174, 30, 0.4);
+}
+
+.workoutplan {
+  flex: 1 1 auto; /* allow it to grow and fill remaining height */
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 6px;
+}
+
+.top-part {
+  min-height: 140px;
+}
+
+.activitychart {
+  min-height: 250px;
+}
+
+/* Style the input fields inside the top-part cards */
+.top-part .card input[type="number"] {
+  width: 80px;
+  max-width: 100%;
+  padding: 6px 10px;
+  background-color: #141414;
+  border: 1px solid #e2ae1e;
+  border-radius: 6px;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.top-part .card input[type="number"]:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 4px rgba(226, 174, 30, 0.5);
+}
+
+/* Style the input for sets in workout cards */
+.workout-input input[type="number"] {
+  width: 60px;
+  max-width: 100%;
+  padding: 4px 8px;
+  background-color: #141414;
+  border: 1px solid #e2ae1e;
+  border-radius: 6px;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-input input[type="number"]:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 4px rgba(226, 174, 30, 0.5);
+}
+
+/* Remove number input spinner - Chrome, Safari, Edge */
+.top-part .card input[type="number"]::-webkit-outer-spin-button,
+.top-part .card input[type="number"]::-webkit-inner-spin-button,
+.workout-input input[type="number"]::-webkit-outer-spin-button,
+.workout-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove number input spinner - Firefox */
+.top-part .card input[type="number"],
+.workout-input input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.activitychart-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+}
+
+.progress-pie-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 200px;
+}
+
+.progress-pie-container canvas {
+  max-width: 100%;
+  max-height: 180px;
+}
+
+.progress-targets-list {
+  flex: 1;
+  padding: 0.5rem;
+}
+
+.progress-targets-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.progress-targets-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 0.95rem;
+  color: #e2ae1e;
+  border-bottom: 1px solid rgba(226,174,30,0.3);
+}
+
+.progress-targets-list li span {
+  font-weight: 600;
+  color: #ffd700;
+  overflow: hidden;
+}
+
+.targets-form input[type="number"] {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #141414;
+  border: 1px solid #e2ae1e;
+  border-radius: 6px;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.targets-form input[type="number"]:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 4px rgba(226, 174, 30, 0.5);
+}
+
+/* Remove spinners - Chrome, Safari, Edge */
+.targets-form input[type="number"]::-webkit-outer-spin-button,
+.targets-form input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinners - Firefox */
+.targets-form input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.targets-form li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(226,174,30,0.3);
+}
+
+.targets-form li:last-child {
+  border-bottom: none;
+}
+
+.targets-form button {
+  width: 100%;
+  padding: 10px 16px;
+  background-color: #e2ae1e;
+  color: #0f0f0f;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.targets-form button:hover {
+  background-color: #ffd700;
+  box-shadow: 0 0 6px rgba(226, 174, 30, 0.5);
+}
+
+.progress.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  height: 100%;           /* Make sure it fills the sidebar height */
+  max-height: 600px;      /* Adjust as you want to fit your design */
+  box-sizing: border-box;
+}
+
+.progress-targets-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;       /* Prevent content overflow horizontally */
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.targets-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;       /* Scroll if inputs overflow vertically */
+  gap: 0.5rem;
+}
+
+.targets-form button {
+  margin-top: auto;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: #e2ae1e;
+  color: #0f0f0f;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Title in progress card */
+.targets-title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e2ae1e;
+  margin-bottom: 1rem;  /* <-- gap between title and form */
+}
+
