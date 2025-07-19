@@ -1,0 +1,10 @@
+name : fitness-tracker
+
+services:
+  app:
+    image: fitness-tracker-docker-image
+    container_name: fitness-tracker-docker-container
+    ports:
+      - "8001:8000"
+    volumes:
+      - .:/app
