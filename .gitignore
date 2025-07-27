@@ -4,3 +4,6 @@ venv/
 # Byte-compiled / optimized files
 __pycache__/
 *.pyc
+
+# environment
+.env/
