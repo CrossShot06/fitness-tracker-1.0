@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User View</title>
+    <link rel="stylesheet" href="% static 'css/view_user.css' %">
+</head>
+<body>
+    <div class="user-list-container">
+    {% for user in users %}
+        <div class="user-info">
+            <div class="user-profilepic">
+                {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'images/default.png' %}" alt="Profile Picture">
+                {% endif %}
+            </div>
+            <div class="user-profilename">{{ user.username }}</div>
+            <div class="age">Age: {{ user.age }}</div>
+            <div class="gender">Gender: {{ user.gender }}</div>
+            <div class="dashboard-btn">
+                <a href="" class="btn dashboard-link">Dashboard</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

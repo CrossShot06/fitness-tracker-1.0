@@ -447,3 +447,9 @@ def assign_workout(request):
     }
 
     return render(request,'accounts/assign_workout.html',context)
+
+@login_required
+def view_users(request):
+
+    users = Profile.objects.filter(role='user')
+    return render(request, 'accounts/view_user.html', {'users': users})
