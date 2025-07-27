@@ -15,21 +15,23 @@ import os
 from environ import Env
 
 
-env = Env()
-Env.read_env()
-
-ENVIRONMENT = env('ENVIRONMENT', default='development')
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+env = Env()
+env.read_env(os.path.join(BASE_DIR, ".env"))
+
+
+ENVIRONMENT = env('ENVIRONMENT', default='development')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x2%szsqvge^prn$^3tzvwzihgx%631^f$est7gk!l4=ub^^d5+'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
