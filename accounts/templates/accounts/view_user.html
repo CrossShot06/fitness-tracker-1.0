@@ -1,14 +1,16 @@
+{% extends "accounts/base_trainer.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User View</title>
-    <link rel="stylesheet" href="% static 'css/view_user.css' %">
-</head>
-<body>
+{% block title %}Users View{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/view_user.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
     <div class="user-list-container">
     {% for user in users %}
         <div class="user-info">
@@ -23,10 +25,12 @@
             <div class="age">Age: {{ user.age }}</div>
             <div class="gender">Gender: {{ user.gender }}</div>
             <div class="dashboard-btn">
-                <a href="" class="btn dashboard-link">Dashboard</a>
+                <a href="{% url 'trainer_view_user_dashboard' user.username %}" class="btn dashboard-link">Dashboard</a>
             </div>
         </div>
     {% endfor %}
-</div>
+
+
+{% endblock %}
 </body>
 </html>

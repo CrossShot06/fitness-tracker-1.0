@@ -1,4 +1,5 @@
-{% extends "accounts/base_user.html" %}
+{% extends "accounts/base_trainer.html" %}
+
 {% load static %}
 {% load workout_extras %}
 
@@ -8,7 +9,9 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
+
 {% block content %}
+
     <div class="dashboard-container">
         <div class="left-half card">
             <form method="post">
@@ -61,7 +64,7 @@
                     <div class="sleep card">
                         <div class="header sleep-header">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e2ae1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <!-- Bed frame -->
+                            
                             <path d="M3 7v13" />
                             <path d="M21 14V7H3v7h18z" />
                             <path d="M21 20V14" />
@@ -187,4 +190,21 @@
     <script src="{% static 'js/chartjs-plugin-zoom.min.js' %}"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        
+            document.querySelectorAll('input').forEach(el => el.disabled = true);
+            document.querySelectorAll('button').forEach(el => el.disabled = true);
+            document.querySelectorAll('select').forEach(el => el.disabled = true);
+
+            document.getElementById('activitySelector').disabled = false;
+            document.getElementById('day').disabled = false;
+
+        });
+    </script>
+    
 {% endblock %}
+
+</body>
+</html>

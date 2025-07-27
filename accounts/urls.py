@@ -23,6 +23,8 @@ urlpatterns = [
     path('approve_appointment/<int:appointment_id>',views.approve_appointment,name='approve_appointment'),
     path('reject_appointment/<int:appointment_id>',views.reject_appointment,name='reject_appointment'),
     path('assign_workout/',views.assign_workout,name="assign_workout"),
-    path('view_users/',views.view_users,name="view_users")
+    path('view_users/',views.view_users,name="view_users"),
+    path('trainer/user-dashboard/<str:username>/', views.trainer_view_user_dashboard, name='trainer_view_user_dashboard'),
+
    
 ]

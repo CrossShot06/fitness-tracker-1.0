@@ -221,35 +221,28 @@ def dashboard(request):
 
     DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-    # Day selector
     selected_day_name = request.POST.get('day') or request.GET.get('day', today_name)
 
-    # Workouts
     workouts_for_selected_day = Workouts.objects.filter(trainee=user, day__iexact=selected_day_name)
     workouts_for_today = Workouts.objects.filter(trainee=user, day__iexact=today_name)
 
-    # DailyEntry
     entry, _ = DailyEntry.objects.get_or_create(user=user, date=today_date)
 
-    # Target
     target, _ = Target.objects.get_or_create(user=user)
 
-    # Default forms
     target_form = TargetForm(instance=target)
 
-    # Handle POST
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
 
         if form_type == 'daily_entry':
-            # Save DailyEntry data
+
             entry.calories = request.POST.get('calories', entry.calories)
             entry.steps = request.POST.get('steps', entry.steps)
             entry.heartrate = request.POST.get('heartrate', entry.heartrate)
             entry.water = request.POST.get('water', entry.water)
             entry.sleep = request.POST.get('sleep', entry.sleep)
 
-            # Workout sets for today
             workout_data = entry.workout_data or {}
             for workout in workouts_for_today:
                 sets_value = request.POST.get(f'workout_{workout.id}')
@@ -264,15 +257,14 @@ def dashboard(request):
             return redirect(f"{request.path}?day={selected_day_name}")
 
         elif form_type == 'target_form':
-            # Save Target data
+            
             target_form = TargetForm(request.POST, instance=target)
             if target_form.is_valid():
                 saved_target = target_form.save(commit=False)
                 saved_target.user = request.user
                 saved_target.save()
-                return redirect(request.path)  # reload to see updated values
+                return redirect(request.path)  
 
-    # Prepopulate data for DailyEntry
     todays_data = {
         'calories': entry.calories,
         'steps': entry.steps,
@@ -283,7 +275,6 @@ def dashboard(request):
  
     }
 
-    # Chart data
     start_date = today_date - timedelta(days=29)
     entries = DailyEntry.objects.filter(
         user=user,
@@ -320,7 +311,6 @@ def dashboard(request):
     if not serialized_chart_data:
         serialized_chart_data = []
 
-    # Appointments
     confirmed_appointments = Appointments.objects.filter(
         trainee=user,
         status="CONFIRMED"
@@ -453,3 +443,89 @@ def view_users(request):
 
     users = Profile.objects.filter(role='user')
     return render(request, 'accounts/view_user.html', {'users': users})
+
+@login_required
+def trainer_view_user_dashboard(request, username):
+
+    target_user = get_object_or_404(User, username=username)
+    today_date = date.today()
+    today_name = today_date.strftime("%A")
+    DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+    selected_day_name = request.GET.get('day', today_name)
+
+    workouts_for_selected_day = Workouts.objects.filter(trainee=target_user, day__iexact=selected_day_name)
+    workouts_for_today = Workouts.objects.filter(trainee=target_user, day__iexact=today_name)
+
+    entry, _ = DailyEntry.objects.get_or_create(user=target_user, date=today_date)
+    target, _ = Target.objects.get_or_create(user=target_user)
+    target_form = TargetForm(instance=target)
+
+    todays_data = {
+        'calories': entry.calories,
+        'steps': entry.steps,
+        'heartrate': entry.heartrate,
+        'workout_data': entry.workout_data,
+        'sleep': entry.sleep,
+        'water': entry.water,
+    }
+
+    start_date = today_date - timedelta(days=29)
+    entries = DailyEntry.objects.filter(user=target_user, date__range=(start_date, today_date)).order_by('date')
+
+    date_to_data = {e.date: {"steps": e.steps or 0, "calories": e.calories or 0} for e in entries}
+    serialized_chart_data = []
+
+    for i in range(30):
+        d = start_date + timedelta(days=i)
+        day_data = date_to_data.get(d, {"steps": 0, "calories": 0})
+        progress = 0.0
+
+        workout_entry = next((e for e in entries if e.date == d), None)
+        if workout_entry and workout_entry.workout_data:
+            workout_data = workout_entry.workout_data
+            day_name = d.strftime("%A")
+            assigned_workouts = Workouts.objects.filter(trainee=target_user, day__iexact=day_name)
+            total_target_sets = sum(w.sets for w in assigned_workouts)
+            total_done_sets = sum(int(workout_data.get(str(w.id), 0)) for w in assigned_workouts)
+            if total_target_sets > 0:
+                progress = round((total_done_sets / total_target_sets) * 100, 2)
+
+        serialized_chart_data.append({
+            'date': d.strftime("%Y-%m-%d"),
+            'steps': day_data["steps"],
+            'calories': day_data["calories"],
+            'workout_progress': progress
+        })
+
+    confirmed_appointments = Appointments.objects.filter(
+        trainee=target_user,
+        status="CONFIRMED"
+    )
+    events = [
+        {
+            "title": f"{a.description} with {a.trainer.username}",
+            "start": a.start_datetime.isoformat(),
+            "end": a.end_datetime.isoformat()
+        }
+        for a in confirmed_appointments
+    ]
+
+    context = {
+        'chart_data_json': serialized_chart_data,
+        'events_json': events,
+        'workouts': workouts_for_selected_day,
+        'today_workouts': workouts_for_today,
+        'selected_day': selected_day_name,
+        'days': DAYS_OF_WEEK,
+        'today_name': today_name,
+        'todays_data': todays_data,
+        'is_today': (selected_day_name == today_name),
+        'form': target_form,
+        'target': target,
+        'readonly': True,  
+        'target_user': target_user,
+    }
+
+    return render(request, 'accounts/trainer_dashboard.html', context)
+
