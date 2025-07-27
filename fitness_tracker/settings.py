@@ -114,7 +114,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1' , '13.233.4.233','https://fitness-tracker-1-0.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1' , '13.233.4.233','fitness-tracker-1-0.onrender.com','0.0.0.0']
 
 #WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
 ASGI_APPLICATION = 'fitness_tracker.asgi.application'
