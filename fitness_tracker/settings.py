@@ -114,7 +114,7 @@ TEMPLATES = [
     },
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1' , '13.233.4.233']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1' , '13.233.4.233','https://fitness-tracker-1-0.onrender.com']
 
 #WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
 ASGI_APPLICATION = 'fitness_tracker.asgi.application'
@@ -174,6 +174,7 @@ MEDIA_URL = '/images/'
 
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
 STATIC_ROOT = BASE_DIR/'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
 

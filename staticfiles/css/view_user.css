@@ -1,0 +1,76 @@
+body {
+    background: #181818;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.user-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.user-info {
+    background: #232323;
+    border-radius: 1rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    padding: 2rem 1.5rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-info:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+}
+
+.user-profilepic img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e2ae1e;
+    margin-bottom: 1rem;
+    background: #fff;
+}
+
+.user-profilename {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #e2ae1e;
+    margin-bottom: 0.5rem;
+}
+
+.age, .gender {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: #e2ae1e;
+}
+
+.dashboard-btn {
+    margin-top: 1.2rem;
+}
+
+.dashboard-btn a {
+    padding: 0.7rem 1.5rem;
+    background: #e2ae1e;
+    color: #000;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.dashboard-btn a:hover {
+    background: #f0c945;
+    color: #181818;
+}
