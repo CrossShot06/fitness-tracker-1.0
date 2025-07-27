@@ -1,0 +1,152 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* BODY STYLES */
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #0f0f0f;
+  color: #e2ae1e;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* CALENDAR SIDE */
+#calendar {
+  flex: 0 0 60%;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  overflow: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#calendar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+}
+
+
+/* PENDING SIDE */
+.pending {
+  flex: 0 0 40%;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap:1.5rem;
+}
+
+.pending h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e2ae1e;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(226, 174, 30, 0.2);
+  padding-bottom: 8px;
+}
+
+/* LIST OF APPOINTMENTS */
+.pending ul {
+  list-style-type: none;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #e2ae1e #1e1e1e;
+}
+
+.pending ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pending ul::-webkit-scrollbar-thumb {
+  background-color: #e2ae1e;
+  border-radius: 4px;
+}
+
+.pending li {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  color: #e2ae1e;
+  transition: background-color 0.2s ease;
+}
+
+.pending li:hover {
+  background-color: #333333;
+}
+
+/* TEXT INSIDE APPOINTMENT ITEM */
+.pending li br {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.pending a {
+  color: #e2ae1e;
+  text-decoration: none;
+  margin-right: 10px;
+  font-weight: 500;
+  border: 1px solid #e2ae1e;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  
+}
+
+.pending a:hover {
+  background-color: #e2ae1e;
+  color: #0f0f0f;
+}
+
+/* Header (Month-Year) */
+.fc-toolbar-title {
+  color: #e2ae1e !important;
+}
+
+/* Days of week headers (Sun, Mon, Tue...) */
+.fc-col-header-cell-cushion {
+  color: #e2ae1e !important;
+}
+
+/* Date numbers (1,2,3...) */
+.fc-daygrid-day-number {
+  color: #e2ae1e !important;
+}
+
+/* Events titles */
+.fc-event-title {
+  color: #e2ae1e !important;
+}
+
+/* Navigation buttons */
+.fc-button {
+  color: #e2ae1e !important;
+  border-color: #e2ae1e !important;
+  background-color: transparent !important;
+}
+
+.fc-button:hover {
+  background-color: #e2ae1e !important;
+  color: #0f0f0f !important;
+}

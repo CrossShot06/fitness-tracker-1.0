@@ -1,0 +1,111 @@
+/* Dark Mode Base */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+/* Review Form */
+form {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+form textarea,
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+form textarea::placeholder,
+form input[type="number"]::placeholder {
+    color: #999;
+}
+
+form button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #43a047;
+}
+
+/* Star input style */
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    gap: 5px;
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    color: #444;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffca28;
+}
+
+/* Review Display */
+.review {
+    background-color: #1e1e1e;
+    border-left: 4px solid #4caf50;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.review strong {
+    color: #80cbc4;
+    font-size: 16px;
+}
+
+.review small {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.review p {
+    margin: 5px 0 10px;
+}
+
+/* Star display for submitted reviews */
+.stars .star {
+    color: #ffca28;
+    font-size: 1.2rem;
+    margin-right: 2px;
+}
+
+.stars .inactive {
+    color: #555;
+}
+
+hr {
+    border-color: #333;
+}

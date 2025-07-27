@@ -1,0 +1,100 @@
+body {
+    background: #181818;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.inbox-container {
+    padding: 2rem;
+    background: #181818;
+    min-height: 100vh;
+}
+
+.inbox-header {
+    text-align: center;
+    font-size: 2rem;
+    color: #fca311;
+    margin-bottom: 2rem;
+}
+
+.chat-card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.chat-card {
+    background: #232323;
+    border-radius: 1rem;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+    padding: 1.5rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.chat-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.7);
+}
+
+.chat-info {
+    margin-bottom: 1rem;
+}
+
+.chat-username {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fca311;
+    margin-bottom: 0.5rem;
+}
+
+.chat-last-message, .chat-no-message {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.chat-open {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: #fca311;
+    color: #000;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn:hover {
+    background: #ffb733;
+    color: #181818;
+}
+
+.open-chat-btn {
+    background: #fca311;
+    color: #000;
+}
+
+.open-chat-btn:hover {
+    background: #ffb733;
+    color: #181818;
+}
+
+.no-chats {
+    text-align: center;
+    color: #ccc;
+    font-size: 1.2rem;
+}
