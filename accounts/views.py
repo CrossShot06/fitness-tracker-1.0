@@ -287,7 +287,7 @@ def dashboard(request):
         d = start_date + timedelta(days=i)
         day_data = date_to_data.get(d, {"steps": 0, "calories": 0})
         
-        # Workout progress
+        
         workout_entry = next((e for e in entries if e.date == d), None)
         progress = 0.0
 
