@@ -83,7 +83,7 @@ def login_view(request):
         user = authenticate(request,username=username,password=password)
         if user is not None:
             login(request,user)
-            return redirect('home')
+            return redirect('page-redirect')
         else:
             messages.info(request,'Username Or Password is Incorrect')
     context={}
@@ -134,12 +134,14 @@ def page_redirect(request):
 
             return redirect('trainer')
         
-        else:
+        elif group == 'admin':
 
-            return redirect('home')
+            return redirect('/admin/')
 
-
+@never_cache
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','user'])
+
 def trainer_assign(request):
 
     trainers = Profile.objects.filter(role = 'trainer')
@@ -150,6 +152,7 @@ def trainer_assign(request):
 
     return render(request,'accounts/trainer_assign.html',context)
 
+@never_cache
 @login_required(login_url='login')
 def inbox(request):
     my_profile = request.user.profile
@@ -175,7 +178,9 @@ def inbox(request):
 
     return render(request,'accounts/inbox.html',context)
 
+@never_cache
 @login_required
+@allowed_users(allowed_roles=['admin','user'])
 def reviews_page(request,username):
     trainer = get_object_or_404(User,username=username)
     reviews = Review.objects.filter(trainer=trainer).order_by('-created_at')
@@ -201,7 +206,9 @@ def reviews_page(request,username):
     })
 
 
-@login_required
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','trainer'])
 def trainer_reviews_view(request):
     if request.user.profile.role != 'trainer':
         return redirect('home')  
@@ -212,7 +219,9 @@ def trainer_reviews_view(request):
         'reviews': reviews
     })
 
-@login_required
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','user'])
 def dashboard(request):
     user = request.user
     today_date = date.today()
@@ -347,26 +356,9 @@ def dashboard(request):
 
     return render(request, 'accounts/dashboard.html', context)
 
-
-def set_goals(request):
-
-    form = StepEntryForm()
-    
-    if request.method == 'POST':
-        form = StepEntryForm(request.POST)
-        if form.is_valid():
-
-            steps = form.save(commit=False)
-            steps.user = request.user
-            
-            steps.save()
-    
-    context = {
-        'form':form
-    }
-
-    return render(request,'accounts/set_goals.html',context)
-
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','user'])
 def request_appointment(request,username):
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
@@ -380,6 +372,9 @@ def request_appointment(request,username):
         form = AppointmentForm()
     return render(request, 'accounts/appointments_request.html', {'form': form})
 
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','trainer'])
 def trainer_appointments(request):
     trainer = request.user
     pending_appointments = Appointments.objects.filter(trainer=trainer, status='PENDING')
@@ -419,6 +414,9 @@ def reject_appointment(request,appointment_id):
     appointment.save()
     return redirect('trainer_appointments')
 
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','trainer'])
 def assign_workout(request):
 
     if request.method == 'POST':
@@ -437,13 +435,17 @@ def assign_workout(request):
 
     return render(request,'accounts/assign_workout.html',context)
 
-@login_required
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','trainer'])
 def view_users(request):
 
     users = Profile.objects.filter(role='user')
     return render(request, 'accounts/view_user.html', {'users': users})
 
-@login_required
+@never_cache
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','trainer'])
 def trainer_view_user_dashboard(request, username):
 
     target_user = get_object_or_404(User, username=username)
