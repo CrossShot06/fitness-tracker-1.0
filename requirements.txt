@@ -13,4 +13,4 @@ pillow==11.0.0
 requests==2.32.4
 humanize==4.9.0
 shortuuid==1.0.13
-PyJWT==2.8.0
+PyJWT==2.10.1

@@ -184,7 +184,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -193,6 +192,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'prompt': 'select_account',
         },
-        'ADAPTER': 'accounts.adapters.DebugGoogleOAuth2Adapter',  # add this
     }
 }
+
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+SOCIALACCOUNT_ADAPTER = 'accounts.adapter.MySocialAccountAdapter'

@@ -122,8 +122,7 @@ def trainer_request(request):
 def page_redirect(request):
     
     group = None
-
-    if request.user.groups.exist():
+    if request.user.groups.exists():
 
         group = request.user.groups.all()[0].name
 
