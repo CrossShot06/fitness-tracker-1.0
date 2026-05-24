@@ -49,6 +49,67 @@ Follow these instructions to get a local copy of the project up and running.
 ### Installation
 
 1. **Clone the repository:**
-```bash
-   git clone [https://github.com/CrossShot06/fitness-tracker.git](https://github.com/CrossShot06/fitness-tracker.git)
-   cd fitness-tracker
+
+    git clone https://github.com/CrossShot06/fitness-tracker.git
+    cd fitness-tracker
+
+2. **Create and activate a virtual environment:**
+
+    python -m venv venv
+    # On Windows:
+    venv\Scripts\activate
+    # On macOS/Linux:
+    source venv/bin/activate
+
+3. **Install dependencies:**
+
+    pip install -r requirements.txt
+
+4. **Set up Environment Variables:**
+   Create a `.env` file in the root directory and configure the following variables:
+
+    SECRET_KEY=your_django_secret_key
+    DEBUG=True
+
+    # Google API Credentials
+    GOOGLE_OAUTH_CLIENT_ID=your_client_id
+    GOOGLE_OAUTH_CLIENT_SECRET=your_client_secret
+    GOOGLE_CALENDAR_API_KEY=your_api_key
+   
+    # Redis (For Channels/WebSockets)
+    REDIS_URL=redis://127.0.0.1:6379/1
+
+5. **Run Database Migrations:**
+
+    python manage.py makemigrations
+    python manage.py migrate
+
+6. **Create a Superuser (Admin):**
+
+    python manage.py createsuperuser
+
+7. **Start the Redis Server:**
+   *(Ensure Redis is installed and running on your machine on port 6379)*
+
+8. **Run the Development Server:**
+
+    # Using Daphne or standard runserver for ASGI
+    python manage.py runserver
+
+   Navigate to `http://127.0.0.1:8000/` to view the application.
+
+## 📡 WebSockets & Google API Implementation
+* **WebSockets:** Utilizes Django Channels to handle asynchronous HTTP and WebSocket protocols. This ensures low-latency, bi-directional communication for the chat and live video features.
+* **Google Calendar API:** Leveraging Google's RESTful API to programmatically create, fetch, and update calendar events based on user-trainer bookings, secured via OAuth tokens.
+
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome!
+Feel free to check the [issues page](https://github.com/CrossShot06/fitness-tracker/issues).
+
+## 📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👨‍💻 Author
+**Soham Sarkar**
+* GitHub: [@CrossShot06](https://github.com/CrossShot06)
+* LinkedIn: [Soham Sarkar](https://www.linkedin.com/in/soham-sarkar-a6a0a2317/)
